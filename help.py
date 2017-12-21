@@ -16,3 +16,12 @@ if (board.width in (8, 11)):
     aORan = "an"
 else:
     aORan = "a"
+
+
+def squareColor(position):
+    file = files.index(((position[0]).upper()))
+    rank = position[1:]
+    if ((file + int(rank)) % 2 == 0):
+        return "black"
+    else:
+        return "white"

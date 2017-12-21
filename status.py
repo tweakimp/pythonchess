@@ -1,46 +1,88 @@
 import board
 import help
 
-'''
-def createMatrix():
-'''
+boardmatrix = boardmatrix = [[" " for x in range(board.height + 1)]
+                             for x in range(board.width + 1)]
 
-boardmatrix = [[" " for x in range(board.height + 1)]
-               for x in range(board.width + 1)]
-# print(boardmatrix)
+
+def reset(setting):
+    if setting == "empty":
+        boardmatrix = [[" " for x in range(board.height + 1)]
+                       for x in range(board.width + 1)]
+    if setting == "start":
+        boardmatrix = [[" " for x in range(board.height + 1)]
+                       for x in range(board.width + 1)]
+        startPosition()
 
 
 def startPosition():
 
     # white
-    boardmatrix[1][1], boardmatrix[8][1] = "R", "R"
-    boardmatrix[2][1], boardmatrix[7][1] = "N", "N"
-    boardmatrix[3][1], boardmatrix[6][1] = "B", "B"
-    boardmatrix[4][1], boardmatrix[5][1] = "Q", "K"
+    boardmatrix[1][1], boardmatrix[8][1] = "wR", "wR"
+    boardmatrix[2][1], boardmatrix[7][1] = "wN", "wN"
+    boardmatrix[3][1], boardmatrix[6][1] = "wB", "wB"
+    boardmatrix[4][1], boardmatrix[5][1] = "wQ", "wK"
+
     for i in range(board.width + 1):
-        boardmatrix[i][2] = "P"
+        boardmatrix[i][2] = "wP"
 
     # black
-    boardmatrix[1][8], boardmatrix[8][8] = "r", "r"
-    boardmatrix[2][8], boardmatrix[7][8] = "n", "n"
-    boardmatrix[3][8], boardmatrix[6][8] = "b", "b"
-    boardmatrix[4][8], boardmatrix[5][8] = "q", "k"
+    boardmatrix[1][8], boardmatrix[8][8] = "bR", "bR"
+    boardmatrix[2][8], boardmatrix[7][8] = "bN", "bN"
+    boardmatrix[3][8], boardmatrix[6][8] = "bB", "bB"
+    boardmatrix[4][8], boardmatrix[5][8] = "bQ", "bK"
     for i in range(board.width + 1):
-        boardmatrix[i][7] = "p"
+        boardmatrix[i][7] = "bP"
 
 
-startPosition()
+def drawMatrix():
 
-for i in range(0, board.height + 1):
-    for j in range(0, board.width + 1):
-        if i == board.height:
-            if j == 0:
-                print(" # ", end=" ")
+    for i in range(0, board.height + 1):
+        for j in range(0, board.width + 1):
+            if i == board.height:
+                if j == 0:
+                    # bottom left corner
+                    print("", end="   ")
+                else:
+                    # bottom letter row
+                    print(
+                        f"\033[1;91m{help.numberToLetter(j)}\033[0m", end="  ")
             else:
-                print(f" {help.numberToLetter(j)} ", end=" ")
-        else:
-            if j == 0:
-                print(f" {board.height-i} ", end=" ")
-            else:
-                print(f"[{boardmatrix[j][board.height-i]}]", end=" ")
-    print("")
+                if j == 0:
+                    # left number column
+                    print(f"\033[1;91m{board.height-i}\033[0m", end=" ")
+                else:
+                    # squares
+                    printSquare(j, i)
+
+        print("")
+
+
+def printSquare(j, i):
+    if((j + board.height - i) % 2 == 0):
+        print(f"\033[1;31m[\033[0m", end="")
+        black = boardmatrix[j][board.height - i]
+        printPiece(black)
+        print(f"\033[1;31m]\033[0m", end="")
+    else:
+        print(f"\033[1;91m[\033[0m", end="")
+        white = boardmatrix[j][board.height - i]
+        printPiece(white)
+        print(f"\033[1;91m]\033[0m", end="")
+
+
+def printPiece(x):
+    if x[0] == "w":
+        print("\033[0;97m", end="")
+        print(f"{x[1:]}", end="")
+        print("\033[0m", end="")
+    elif x[0] == "b":
+        print("\033[0m", end="")
+        print(f"{x[1:]}", end="")
+        print("\033[0m", end="")
+    else:
+        print(f"{x}", end="")
+
+
+reset("start")
+drawMatrix()

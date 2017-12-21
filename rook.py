@@ -10,16 +10,16 @@ def rookMoves(position):
     file = help.letterToNumber((position[0]).upper())
     rank = position[1:]
     f, r = int(file), int(rank)
-    directions = []  # directions are absolute coordinates
+    moves = []  # directions are absolute coordinates
 
     for i in range(1, board.width + 1):
         if i != f:
-            directions.append((i, r))
+            moves.append((i, r))
     for j in range(1, board.height + 1):
         if j != r:
-            directions.append((f, j))
-    for direction in directions:
-        print(f"{help.numberToLetter(direction[0])}{direction[1]}", end=' ')
+            moves.append((f, j))
+    for move in moves:
+        print(f"{help.numberToLetter(move[0])}{move[1]}", end=' ')
 
 
 # TEST
