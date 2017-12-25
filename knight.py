@@ -14,7 +14,7 @@ def knightMoves(position):
                   (2, -1), (2, 1))
     moves = []
     for direction in directions:
-        if (f + direction[0]) in range(1, board.width + 1) and (r + direction[1]) in board.ranks:
+        if (f + direction[0]) in range(1, board.width + 1) and (r + direction[1]) in range(1, board.height + 1):
             moves.append((f + direction[0], r + direction[1]))
             print(
                 f"{help.numberToLetter(f + direction[0])}{r + direction[1]}", end=' ')

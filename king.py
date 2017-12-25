@@ -15,10 +15,11 @@ def kingMoves(position):
 
     moves = []
     for direction in directions:
-        if (f + direction[0]) in range(1, board.width + 1) and (r + direction[1]) in board.ranks:
-            moves.append((f + direction[0],r + direction[1]))
-            print(f"{help.numberToLetter(f + direction[0])}{r + direction[1]}", end=" ")
+        if (f + direction[0]) in range(1, board.width + 1) and (r + direction[1]) in range(1, board.height + 1):
+            moves.append((f + direction[0], r + direction[1]))
+            print(
+                f"{help.numberToLetter(f + direction[0])}{r + direction[1]}", end=" ")
 
 
 # TEST
-kingMoves("a1")
+# kingMoves("e5")

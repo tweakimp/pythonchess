@@ -7,12 +7,14 @@ import knight
 import queen
 import rook
 import status
+import help
+import draw
 
 status.reset("start")
-status.drawMatrix()
+draw.drawMatrix()
 
-'''
-randomStart = str(choice(board.files[1:])) + str(choice(board.ranks))
+
+randomStart = str(choice(board.files[1:])) + str(choice(board.ranks[1:]))
 knight.knightMoves(randomStart)
 print(" ")
 print(" ")
@@ -30,4 +32,3 @@ print(" ")
 print(" ")
 square = help.squareColor(randomStart)
 print(f"The square {randomStart} is {square}.")
-'''

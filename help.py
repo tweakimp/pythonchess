@@ -19,7 +19,7 @@ else:
 
 
 def squareColor(position):
-    file = files.index(((position[0]).upper()))
+    file = board.files.index(((position[0]).upper()))
     rank = position[1:]
     if ((file + int(rank)) % 2 == 0):
         return "black"
