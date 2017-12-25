@@ -2,8 +2,8 @@
 
 # print('\x1b[6;30;42m' + 'Success!' + '\x1b[0m')
 
-for i in range(0,50):
-    print(f"\x1b[{i}mAt {i} THIS happens!\x1b[0m")
+"""for i in range(0,50):
+    print(f'\x1b[{i}mAt {i} THIS happens!\x1b[0m')"""
 
 # 0 zurücksetzen
 # 1 fett

@@ -1,8 +1,8 @@
 import board
 import help
 
-boardmatrix = boardmatrix = [[" " for x in range(board.height + 1)]
-                             for x in range(board.width + 1)]
+boardmatrix = boardmatrix = [[" " for x in range(1, board.height + 1)]
+                             for x in range(1, board.width + 1)]
 
 
 def reset(setting):
@@ -18,21 +18,22 @@ def reset(setting):
 def startPosition():
 
     # white
-    boardmatrix[1][1], boardmatrix[8][1] = "wR", "wR"
-    boardmatrix[2][1], boardmatrix[7][1] = "wN", "wN"
-    boardmatrix[3][1], boardmatrix[6][1] = "wB", "wB"
-    boardmatrix[4][1], boardmatrix[5][1] = "wQ", "wK"
+    boardmatrix[0][0], boardmatrix[7][0] = "wR", "wR"
+    boardmatrix[1][0], boardmatrix[6][0] = "wN", "wN"
+    boardmatrix[2][0], boardmatrix[5][0] = "wB", "wB"
+    boardmatrix[3][0], boardmatrix[4][0] = "wQ", "wK"
 
-    for i in range(board.width + 1):
-        boardmatrix[i][2] = "wP"
+    for i in range(0, board.width):
+        boardmatrix[i][1] = "wP"
 
     # black
-    boardmatrix[1][8], boardmatrix[8][8] = "bR", "bR"
-    boardmatrix[2][8], boardmatrix[7][8] = "bN", "bN"
-    boardmatrix[3][8], boardmatrix[6][8] = "bB", "bB"
-    boardmatrix[4][8], boardmatrix[5][8] = "bQ", "bK"
-    for i in range(board.width + 1):
-        boardmatrix[i][7] = "bP"
+    boardmatrix[0][7], boardmatrix[7][7] = "bR", "bR"
+    boardmatrix[1][7], boardmatrix[6][7] = "bN", "bN"
+    boardmatrix[2][7], boardmatrix[5][7] = "bB", "bB"
+    boardmatrix[3][7], boardmatrix[4][7] = "bQ", "bK"
+
+    for i in range(0, board.width):
+        boardmatrix[i][6] = "bP"
 
 
 def drawMatrix():
@@ -61,12 +62,14 @@ def drawMatrix():
 def printSquare(j, i):
     if((j + board.height - i) % 2 == 0):
         print(f"\033[1;31m[\033[0m", end="")
-        black = boardmatrix[j][board.height - i]
+        # drawn matrix is 1 higher and wider then boardmatrix
+        black = boardmatrix[j - 1][board.height - i - 1]
         printPiece(black)
         print(f"\033[1;31m]\033[0m", end="")
     else:
         print(f"\033[1;91m[\033[0m", end="")
-        white = boardmatrix[j][board.height - i]
+        # drawn matrix is 1 higher and wider then boardmatrix
+        white = boardmatrix[j - 1][board.height - i - 1]
         printPiece(white)
         print(f"\033[1;91m]\033[0m", end="")
 
