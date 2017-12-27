@@ -1,5 +1,5 @@
-import help
 import board
+import help
 import status
 
 
@@ -51,7 +51,7 @@ def printPiece(x):
         print(f"{x[1:]}", end="")
         print("\033[0m", end="")
     else:
-        print(f"{x}", end="")
+        print(f" ", end="")
 
 
 # drawMatrix()

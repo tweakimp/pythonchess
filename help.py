@@ -2,12 +2,10 @@ import board
 
 
 def letterToNumber(x):
-    """Change letter to number."""
     return board.files.index(x)
 
 
 def numberToLetter(x):
-    """Change number to letter."""
     return board.files[x]
 
 
