@@ -3,7 +3,6 @@ import help
 
 
 def kingMoves(position):
-    """Calculate all king moves from position."""
     print(
         f"On {help.aORan} {board.width} * {board.height} board a King on {position.upper()} can go to: "
     )

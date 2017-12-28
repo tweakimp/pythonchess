@@ -1,6 +1,5 @@
 import board
 import help
-import status
 
 
 def drawMatrix():
@@ -29,14 +28,14 @@ def drawMatrix():
 def printSquare(j, i):
     if((j + board.height - i) % 2 == 0):
         print(f"\033[1;31m[\033[0m", end="")
-        # drawn matrix is 1 higher and wider then status.boardmatrix
-        black = status.boardmatrix[j - 1][board.height - i - 1]
+        # drawn matrix is 1 higher and wider then board.matrix
+        black = board.matrix[j - 1][board.height - i - 1]
         printPiece(black)
         print(f"\033[1;31m]\033[0m", end="")
     else:
         print(f"\033[1;91m[\033[0m", end="")
-        # drawn matrix is 1 higher and wider then status.boardmatrix
-        white = status.boardmatrix[j - 1][board.height - i - 1]
+        # drawn matrix is 1 higher and wider then board.matrix
+        white = board.matrix[j - 1][board.height - i - 1]
         printPiece(white)
         print(f"\033[1;91m]\033[0m", end="")
 
@@ -54,4 +53,5 @@ def printPiece(x):
         print(f" ", end="")
 
 
-# drawMatrix()
+board.reset("start")
+drawMatrix()

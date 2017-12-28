@@ -1,11 +1,8 @@
 import board
-import draw
-import status
 
 
 class piece:
-    """Summons piece of given color and position."""
-
+    # Summons piece of given color and position
     def __init__(self, color, piece, position):
 
         # color
@@ -39,21 +36,21 @@ class piece:
             self.canCastle = True
 
         # position and place
-        self.position = position
+        self.position = position.upper()
         file = board.files.index(((self.position[0]).upper()))
         rank = self.position[1:]
-        status.boardmatrix[int(file) - 1][int(rank) - 1] = self.short
+        board.matrix[int(file) - 1][int(rank) - 1] = self.short
 
     def place(self, position=None):
         # remove old
         oldfile = board.files.index(((self.position[0]).upper()))
         oldrank = self.position[1:]
-        status.boardmatrix[int(oldfile) - 1][int(oldrank) - 1] = "  "
+        board.matrix[int(oldfile) - 1][int(oldrank) - 1] = "  "
         # place new
         position = position or self.position
         file = board.files.index(((position[0]).upper()))
         rank = position[1:]
-        status.boardmatrix[int(file) - 1][int(rank) - 1] = self.short
+        board.matrix[int(file) - 1][int(rank) - 1] = self.short
         # update position
         self.position = position
 
@@ -95,3 +92,8 @@ bKknight = piece("b", "n", "g8")
 bKrook = piece("b", "r", "h8")
 
 # draw.drawMatrix()
+for line in board.matrix:
+    print(line)
+print(bKrook.position)
+print(bKrook.color)
+print(bKrook.canCastle)

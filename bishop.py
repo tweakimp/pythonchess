@@ -3,6 +3,7 @@ import help
 
 
 def bishopMoves(position):
+
     # calculate all bishop moves from position
     print(f"On {help.aORan} {board.width}*{board.height} board a Bishop on {position.upper()} can go to:")
     file = help.letterToNumber((position[0]).upper())
@@ -35,4 +36,4 @@ def bishopMoves(position):
 
 
 # TEST
-# bishopMoves("d4")
+bishopMoves("d4")
