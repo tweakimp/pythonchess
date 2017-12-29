@@ -51,9 +51,9 @@ class Knight(piece):
         print(f"{self.name} goes from {start.upper()} to {target.upper()}")
 
 
-k1 = Knight("w", "e4")
-helper.inspect(k1)
-k1.move("f6")
-helper.inspect(k1)
-k1.move("a1")
-helper.inspect(k1)
+n1 = Knight("w", "e4")
+helper.inspect(n1)
+n1.move("f6")
+helper.inspect(n1)
+n1.move("a1")
+helper.inspect(n1)

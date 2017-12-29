@@ -1,11 +1,11 @@
 import board
 
 
-def letterToNumber(x):
+def let2num(x):
     return board.files.index(x)
 
 
-def numberToLetter(x):
+def num2let(x):
     return board.files[x]
 
 
@@ -30,7 +30,7 @@ def inspect(x):
 
 
 def isFree(square):
-    file = letterToNumber((square[0]).upper())
+    file = let2num((square[0]).upper())
     rank = square[1:]
     if(board.matrix[int(file) - 1][int(rank) - 1] == "  "):
         return "free square"
