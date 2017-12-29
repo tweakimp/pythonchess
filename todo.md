@@ -1,3 +1,5 @@
-* boardmatrix ist height+1 breit
-* help.py file und rank code findet sich an anderen stellen auch wieder
-* board.width+1: king.py
+- farben und stile zu variablen machen
+- line length beachten
+- einmal über alles drüber gehen
+- helper.isFree >> board.squareCheck
+- eine funktion, die angibt, was an dem feld ist und eine, die true oder false für belegung zurückgibt

@@ -1,13 +1,13 @@
 import board
-import help
+import helper
 
 
 def queenMoves(position):
     # calculate all queen moves from position
     print(
-        f"On {help.aORan} {board.width}*{board.height} board a Queen on {position.upper()} can go to:"
+        f"On {helper.aORan} {board.width}*{board.height} board a Queen on {position.upper()} can go to:"
     )
-    file = help.letterToNumber((position[0]).upper())
+    file = helper.letterToNumber((position[0]).upper())
     rank = position[1:]
     f, r = int(file), int(rank)
     moves = []  # moves are absolute coordinates
@@ -53,8 +53,8 @@ def queenMoves(position):
             moves.append((f - i, r - i))
 
     for move in moves:
-        print(f"{help.numberToLetter(move[0])}{move[1]}", end=' ')
+        print(f"{helper.numberToLetter(move[0])}{move[1]}", end=' ')
 
 
 # TEST
-# queenMoves("e3")
+queenMoves("e3")

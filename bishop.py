@@ -1,12 +1,12 @@
 import board
-import help
+import helper
 
 
 def bishopMoves(position):
 
     # calculate all bishop moves from position
-    print(f"On {help.aORan} {board.width}*{board.height} board a Bishop on {position.upper()} can go to:")
-    file = help.letterToNumber((position[0]).upper())
+    print(f"On {helper.aORan} {board.width}*{board.height} board a Bishop on {position.upper()} can go to:")
+    file = helper.letterToNumber((position[0]).upper())
     rank = position[1:]
     f, r = int(file), int(rank)
     moves = []  # moves are absolute coordinates
@@ -32,7 +32,7 @@ def bishopMoves(position):
             moves.append((f + l, r - l))
 
     for move in moves:
-        print(f"{help.numberToLetter(move[0])}{move[1]}", end=' ')
+        print(f"{helper.numberToLetter(move[0])}{move[1]}", end=' ')
 
 
 # TEST

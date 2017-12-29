@@ -1,9 +1,13 @@
 import board
-import help
+import helper
+
+
+def printMatrix():
+    for line in board.matrix:
+        print(line)
 
 
 def drawMatrix():
-
     for i in range(0, board.height + 1):
         for j in range(0, board.width + 1):
             if i == board.height:
@@ -13,7 +17,7 @@ def drawMatrix():
                 else:
                     # bottom letter row
                     print(
-                        f"\033[1;91m{help.numberToLetter(j)}\033[0m", end="  ")
+                        f"\033[1;91m{helper.numberToLetter(j)}\033[0m", end="  ")
             else:
                 if j == 0:
                     # left number column
@@ -21,7 +25,6 @@ def drawMatrix():
                 else:
                     # squares
                     printSquare(j, i)
-
         print("")
 
 
@@ -53,5 +56,5 @@ def printPiece(x):
         print(f" ", end="")
 
 
-board.reset("start")
-drawMatrix()
+# board.reset("start")
+# drawMatrix()

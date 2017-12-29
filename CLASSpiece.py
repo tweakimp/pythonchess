@@ -1,4 +1,6 @@
 import board
+import draw
+import helper
 
 
 class piece:
@@ -92,8 +94,6 @@ bKknight = piece("b", "n", "g8")
 bKrook = piece("b", "r", "h8")
 
 # draw.drawMatrix()
-for line in board.matrix:
-    print(line)
-print(bKrook.position)
-print(bKrook.color)
-print(bKrook.canCastle)
+draw.printMatrix()
+# print(bKrook.position)
+print(helper.isFree("c8"))

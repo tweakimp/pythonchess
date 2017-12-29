@@ -1,13 +1,13 @@
 import board
-import help
+import helper
 
 
 def rookMoves(position):
     # calculate all rook moves from position
     print(
-        f"On {help.aORan} {board.width}*{board.height} board a Rook on {position.upper()} can go to:"
+        f"On {helper.aORan} {board.width}*{board.height} board a Rook on {position.upper()} can go to:"
     )
-    file = help.letterToNumber((position[0]).upper())
+    file = helper.letterToNumber((position[0]).upper())
     rank = position[1:]
     f, r = int(file), int(rank)
     moves = []  # moves are absolute coordinates
@@ -36,7 +36,7 @@ def rookMoves(position):
         if j != r:
             moves.append((f, j))"""
     for move in moves:
-        print(f"{help.numberToLetter(move[0])}{move[1]}", end=' ')
+        print(f"{helper.numberToLetter(move[0])}{move[1]}", end=' ')
 
 
 # TEST

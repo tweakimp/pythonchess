@@ -1,4 +1,5 @@
 import board
+import helper
 
 
 class piece:
@@ -14,14 +15,19 @@ class piece:
         else:
             self.color = "none"
 
+    def pos(self):
+        print(self.position)
+
 
 class Knight(piece):
     def __init__(self, color, position):
+
+        self.name = "Knight"
         super().__init__(color, position)
-        self.short = color + "K"
+        self.short = color + "N"
 
         # position
-        file = board.files.index(((self.position[0]).upper()))
+        file = board.files.index(self.position[0])
         rank = self.position[1:]
         board.matrix[int(file) - 1][int(rank) - 1] = self.short
 
@@ -36,11 +42,18 @@ class Knight(piece):
         rank = position[1:]
         board.matrix[int(file) - 1][int(rank) - 1] = self.short
         # update position
-        self.position = position
+        self.position = position.upper()
 
     def move(self, target):
-        print(f"go to {target}")
+
+        start = self.position
+        self.place(target)
+        print(f"{self.name} goes from {start.upper()} to {target.upper()}")
 
 
 k1 = Knight("w", "e4")
+helper.inspect(k1)
 k1.move("f6")
+helper.inspect(k1)
+k1.move("a1")
+helper.inspect(k1)
