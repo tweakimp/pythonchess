@@ -4,7 +4,7 @@ import helper
 
 def knightMoves(position):
     # calculate all knight moves from position
-    print(f"On {helper.aORan} {board.width}*{board.height}", end="")
+    print(f"On {helper.aORan} {board.width}*{board.height} ", end="")
     print(f"board a Knight on {position.upper()} can go to:")
     file = helper.let2num((position[0]).upper())
     rank = position[1:]

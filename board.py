@@ -52,4 +52,15 @@ def readPos(position):
     global file, rank
     file = files.index((position[0]).upper())
     rank = position[1:]
-    return file, rank
+    return file,
+
+
+"""for line in matrix:
+    print(line)
+print("=====================================================================")
+matrix[0][0] = "wK"
+
+for line in matrix:
+    print(line)
+
+print(isEmpty("A1"))"""

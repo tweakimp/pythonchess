@@ -1,3 +1,1 @@
-- einmal über alles drüber gehen
-- helper.isFree >> board.squareCheck
-- eine funktion, die angibt, was an dem feld ist und eine, die true oder false für belegung zurückgibt
+- funktion, die das objekt auf dem feld zurückgibt
