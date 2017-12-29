@@ -36,4 +36,4 @@ def bishopMoves(position):
 
 
 # TEST
-bishopMoves("d4")
+# bishopMoves("d4")
