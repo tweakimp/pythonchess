@@ -16,23 +16,5 @@ else:
     aORan = "a"
 
 
-def squareColor(position):
-    file = board.files.index(((position[0]).upper()))
-    rank = position[1:]
-    if ((file + int(rank)) % 2 == 0):
-        return "black"
-    else:
-        return "white"
-
-
 def inspect(x):
     print(vars(x))
-
-
-def isFree(square):
-    file = let2num((square[0]).upper())
-    rank = square[1:]
-    if(board.matrix[int(file) - 1][int(rank) - 1] == "  "):
-        return "free square"
-    else:
-        return str(board.matrix[int(file) - 1][int(rank) - 1])

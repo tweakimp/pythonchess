@@ -22,3 +22,34 @@ def reset(setting):
 
     else:
         print("Something failed.")
+
+
+def checkSquare(position):
+    readPos(position)
+    if(matrix[int(file) - 1][int(rank) - 1] == "  "):
+        return "free square"
+    else:
+        return str(matrix[int(file) - 1][int(rank) - 1])
+
+
+def isEmpty(position):
+    readPos(position)
+    if(matrix[int(file) - 1][int(rank) - 1] == "  "):
+        return True
+    else:
+        return False
+
+
+def squareColor(position):
+    readPos(position)
+    if ((file + int(rank)) % 2 == 0):
+        return "black"
+    else:
+        return "white"
+
+
+def readPos(position):
+    global file, rank
+    file = files.index((position[0]).upper())
+    rank = position[1:]
+    return file, rank
