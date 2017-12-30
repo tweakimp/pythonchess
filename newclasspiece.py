@@ -13,7 +13,7 @@ class piece:
         elif color == "b":
             self.color = "b"
         else:
-            self.color = ""
+            self.color = None
         # place on board
         file = board.files.index(self.position[0])
         rank = self.position[1:]
@@ -43,15 +43,17 @@ class piece:
         if(board.isEmpty(target)):
             start = self.position
             self.updateBoard(target)
-            print(f"{self.name} moves from {start.upper()} to {target.upper()}")
+            print(f"{self.name} moves: {start.upper()} to {target.upper()}")
         else:
             file = helper.let2num((target[0]).upper())
             rank = int(target[1:])
             print("square is occupied, cant move")
-            if(self.color == "w" and board.matrix[file - 1][rank - 1][:1] == "b"):
-                print("but can attack the black piece")
-            if(self.color == "b" and board.matrix[file - 1][rank - 1][:1] == "w"):
-                print("but can attack the white piece")
+            if(self.color is None):
+                print("but can capture")
+            else:
+                opponent = board.matrix[file - 1][rank - 1]
+                if(self.color != board.matrix[file - 1][rank - 1][:1]):
+                    print(f"but can capture the opponent piece {opponent}")
 
 
 class Knight(piece):
@@ -68,6 +70,3 @@ n1.move("f6")
 helper.inspect(n1)
 n1.move("A1")
 helper.inspect(n1)
-
-"""for line in board.matrix:
-    print(line)"""
