@@ -21,7 +21,7 @@ def reset(setting):
                   for y in range(0, width)]
 
     else:
-        print("Something failed.")
+        print("Something failebghfghfghfghcbgd.")
 
 
 def checkSquare(position):
