@@ -1,6 +1,5 @@
 import board
 import draw
-import helper
 
 
 class piece:

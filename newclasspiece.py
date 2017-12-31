@@ -1,6 +1,7 @@
 import board
 import helper
 import knight
+import draw
 
 
 class piece:
@@ -14,7 +15,7 @@ class piece:
         elif color == "b":
             self.color = "b"
         else:
-            self.color = None
+            raise Exception("Wrong color (\"w\" or \"b\")")
         # place on board
         file = board.files.index(self.position[0])
         rank = self.position[1:]
@@ -36,25 +37,33 @@ class piece:
         # update position
         self.position = position.upper()
 
-    def attacking(self):
-        list = ["A1", "B2", "C6"]
-        return list
-
     def move(self, target):
-        if(board.isEmpty(target)):
-            start = self.position
-            self.updateBoard(target)
-            print(f"{self.name} moves: {start.upper()} to {target.upper()}")
-        else:
-            file = helper.let2num((target[0]).upper())
-            rank = int(target[1:])
-            print("square is occupied, cant move")
-            if(self.color is None):
-                print("but can capture")
+        if(self.checkTarget(target)):
+            if(board.isEmpty(target)):
+                start = (self.position).upper()
+                self.updateBoard(target)
+                print(f"{self.name} moves: {start} > {target.upper()}")
             else:
-                opponent = board.matrix[file - 1][rank - 1]
-                if(self.color != board.matrix[file - 1][rank - 1][:1]):
-                    print(f"but can capture the opponent piece {opponent}")
+                self.capture(target)
+        else:
+            print("Cant go there")
+
+    def capture(self, target):
+        file = helper.let2num((target[0]).upper())
+        rank = int(target[1:])
+        if(board.puzzlemode):
+            print("Capture in puzzlemode")
+            start = (self.position).upper()
+            self.updateBoard(target)
+            print(f"{self.name} captures: {start} > {target.upper()}")
+        else:
+            opponent = board.matrix[file - 1][rank - 1]
+            if(self.color != opponent[:1]):
+                start = (self.position).upper()
+                self.updateBoard(target)
+                print(f"{self.name} captures: {start} > {target.upper()}")
+            else:
+                print(f"Can't capture piece of same color")
 
     def checkTarget(self, target):
         moves = knight.knightMoves(self.position)
@@ -72,10 +81,18 @@ class Knight(piece):
 
 
 n1 = Knight("w", "a1")
-print(n1.checkTarget("b4"))
-"""n2 = Knight("b", "a1")
+n2 = Knight("b", "c2")
+draw.drawMatrix()
+n1.move("c2")
+draw.drawMatrix()
+n1.move("d4")
+draw.drawMatrix()
+n2.move("e1")
+draw.drawMatrix()
+"""
 helper.inspect(n1)
 n1.move("f6")
+
 helper.inspect(n1)
 n1.move("A1")
 helper.inspect(n1)"""

@@ -57,5 +57,7 @@ def printPiece(x):
         print(f" ", end="")
 
 
-# board.reset("start")
-# drawMatrix()
+"""
+board.reset("start")
+drawMatrix()
+"""
