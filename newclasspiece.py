@@ -1,5 +1,6 @@
 import board
 import helper
+import knight
 
 
 class piece:
@@ -55,6 +56,13 @@ class piece:
                 if(self.color != board.matrix[file - 1][rank - 1][:1]):
                     print(f"but can capture the opponent piece {opponent}")
 
+    def checkTarget(self, target):
+        moves = knight.knightMoves(self.position)
+        if target.upper() in moves:
+            return True
+        else:
+            return False
+
 
 class Knight(piece):
     def __init__(self, color, position):
@@ -63,10 +71,11 @@ class Knight(piece):
         super().__init__(color, position)
 
 
-n1 = Knight("w", "e4")
-n2 = Knight("b", "a1")
+n1 = Knight("w", "a1")
+print(n1.checkTarget("b4"))
+"""n2 = Knight("b", "a1")
 helper.inspect(n1)
 n1.move("f6")
 helper.inspect(n1)
 n1.move("A1")
-helper.inspect(n1)
+helper.inspect(n1)"""

@@ -28,12 +28,6 @@ def rookMoves(position):
         for l in range(1, r):
             moves.append((f, r - l))
 
-    """for i in range(1, board.width + 1):
-        if i != f:
-            moves.append((i, r))
-    for j in range(1, board.height + 1):
-        if j != r:
-            moves.append((f, j))"""
     for move in moves:
         print(f"{helper.num2let(move[0])}{move[1]}", end=' ')
 
