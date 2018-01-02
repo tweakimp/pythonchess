@@ -1,3 +1,4 @@
+
 class piece(object):
     def __init__(self, value, color, position):
         self.value = value
