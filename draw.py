@@ -55,9 +55,3 @@ def printPiece(x):
         print(f"{col[0]}", end="")
     else:
         print(f" ", end="")
-
-
-"""
-board.reset("start")
-drawMatrix()
-"""
