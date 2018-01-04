@@ -1,1 +1,0 @@
-eingabe = input("Ihre Eingabe? ")
