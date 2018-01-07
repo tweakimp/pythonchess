@@ -184,10 +184,11 @@ def printpieces():
             print(v.position, name)
         else:
             print(v.position, name, end="   \t")
+    print("")
     for i in stats:
         print(f"{i}: {stats[i]}", end=" ")
-    print("")
+    print("\n")
 
 
-# printpieces()
+printpieces()
 draw.drawMatrix()

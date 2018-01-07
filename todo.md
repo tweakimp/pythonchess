@@ -1,1 +1,2 @@
 - funktion, die das objekt auf dem feld zurückgibt
+- printpieces spaltenweise nicht zeilenweise! :)
