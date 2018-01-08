@@ -1,8 +1,8 @@
 import board
 import draw
 import helper
-import knight
 import lists
+import moves
 
 
 class Piece:
@@ -69,7 +69,7 @@ class Piece:
                 print(f"Can't capture piece of same color")
 
     def checkTarget(self, target):
-        moves = knight.knightMoves(self.position)
+        # moves = knight.knightMoves(self.position)
         if target.upper() in moves:
             return True
         else:
@@ -98,6 +98,7 @@ class Rook(Piece):
     def __init__(self, color, value, position):
         self.short = color + "R"
         super().__init__(color, value, position)
+        self.canCastle = True
 
 
 class Queen(Piece):
@@ -110,6 +111,7 @@ class King(Piece):
     def __init__(self, color, value, position):
         self.short = color + "K"
         super().__init__(color, value, position)
+        self.canCastle = True
 
 
 def listchange(manipulation, input, target=0):
@@ -148,12 +150,11 @@ pieces.update(qdict)
 pieces.update(kdict)
 
 
-def printpieces():
-    i = 0
+def pieceList(modus):
     stats = {"Pawns": 0, "Knights": 0, "Bishops": 0, "Rooks": 0,
              "Queens": 0, "Kings": 0, "White": 0, "Black": 0}
+    pieceList = []
     for k, v in pieces.copy().items():
-        i += 1
         if v.short[0] == "w":
             stats["White"] += 1
             name = "White "
@@ -178,17 +179,44 @@ def printpieces():
         elif v.short[1] == "K":
             stats["Kings"] += 1
             name += "King"
-        if (i == len(pieces)):
-            print(v.position, name, end="\n")
-        elif (i % 4 == 0):
-            print(v.position, name)
-        else:
-            print(v.position, name, end="   \t")
+        pieceList.append(v.position + " " + name)
+    if modus == 0:
+        return pieceList
+    if modus == 1:
+        return stats
+
+
+def printColumns(xlist, columns, padding, seperator):
+
+    # make it rectangualar by filling empty list entries
+    missingentries = (columns - len(xlist) % columns) % columns
+    for i in range(missingentries):
+        xlist.append("")
+
+    # make entries equally long
+    columnwidth = max(len(row) for row in xlist) + padding
+    for i in range(len(xlist)):
+        difference = columnwidth - len(xlist[i])
+        for j in range(difference):
+            xlist[i] += seperator
+
+    columnlength = len(xlist) // columns
+    for i in range(columnlength):
+        for j in range(columns):
+            print(xlist[i + (j * columnlength)], end="")
+        print("")
+
+def printStats(xdict):
+    for k, v in xdict.items():
+        print(k, end=": ")
+        print(v, end="")
+        if k != list(xdict.keys())[-1]:
+            print(", ", end="")
     print("")
-    for i in stats:
-        print(f"{i}: {stats[i]}", end=" ")
-    print("\n")
+
+def printPieces():
+    printColumns(pieceList(0), 4, 5, " ")
+    printStats(pieceList(1))
 
 
-printpieces()
-draw.drawMatrix()
+printPieces()
