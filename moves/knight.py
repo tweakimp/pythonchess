@@ -21,5 +21,7 @@ def knightMoves(position):
     return moves
 
 
-# TEST
-# print(knightMoves("e4"))
+print("test")
+
+if __name__ == "__main__":
+    print(knightMoves("e4"))

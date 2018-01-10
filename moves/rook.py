@@ -12,19 +12,19 @@ def rookMoves(position):
     moves = []  # moves are absolute coordinates
 
     # left
-    if(f != 1):
+    if f != 1:
         for i in range(1, f):
             moves.append((f - i, r))
     # up
-    if(r != board.height):
+    if r != board.height:
         for j in range(1, board.height + 1 - r):
             moves.append((f, r + j))
     # right
-    if(f != board.width):
+    if f != board.width:
         for k in range(1, board.width + 1 - f):
             moves.append((f + k, r))
     # down
-    if(r != 1):
+    if r != 1:
         for l in range(1, r):
             moves.append((f, r - l))
 

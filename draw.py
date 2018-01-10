@@ -32,7 +32,7 @@ def drawMatrix():
 
 def printSquare(j, i):
     # drawn matrix is 1 higher and wider then board.matrix
-    if((j + board.height - i) % 2 == 1):
+    if (j + board.height - i) % 2 == 1:
         print(f"{col[1]}[{col[0]}", end="")
         white = board.matrix[j - 1][board.height - i - 1]
         printPiece(white)

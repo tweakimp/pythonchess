@@ -28,7 +28,7 @@ def reset(setting):
 
 def checkSquare(position):
     readPos(position)
-    if(matrix[int(file) - 1][int(rank) - 1] == "  "):
+    if matrix[int(file) - 1][int(rank) - 1] == "  ":
         return "free square"
     else:
         return str(matrix[int(file) - 1][int(rank) - 1])
@@ -36,7 +36,7 @@ def checkSquare(position):
 
 def isEmpty(position):
     readPos(position)
-    if(matrix[int(file) - 1][int(rank) - 1] == "  "):
+    if matrix[int(file) - 1][int(rank) - 1] == "  ":
         return True
     else:
         return False
@@ -44,7 +44,7 @@ def isEmpty(position):
 
 def squareColor(position):
     readPos(position)
-    if ((file + int(rank)) % 2 == 0):
+    if (file + int(rank)) % 2 == 0:
         return "black"
     else:
         return "white"

@@ -13,22 +13,22 @@ def bishopMoves(position):
     moves = []  # moves are absolute coordinates
 
     # down and left
-    if(f != 1 or r != 1):
+    if f != 1 or r != 1:
         for i in range(1, min(f, r)):
             moves.append((f - i, r - i))
 
     # up and left
-    if(f != 1 or r != board.height):
+    if f != 1 or r != board.height:
         for j in range(1, min(f, board.height + 1 - r)):
             moves.append((f - j, r + j))
 
     # up and right
-    if(f != board.width or r != board.height):
+    if f != board.width or r != board.height:
         for k in range(1, min(board.width + 1 - f, board.height + 1 - r)):
             moves.append((f + k, r + k))
 
     # down and right
-    if(f != board.width or r != 1):
+    if f != board.width or r != 1:
         for l in range(1, min(board.width + 1 - f, r)):
             moves.append((f + l, r - l))
 

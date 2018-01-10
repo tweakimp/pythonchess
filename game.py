@@ -1,13 +1,8 @@
-from random import choice
+# from random import choice
 
-import bishop
-import board
-import king
-import knight
-import queen
-import rook
+# import board
+# import moves.knight
 
-randomStart = str(choice(board.files[1:])) + str(choice(board.ranks[1:]))
+# randomStart = str(choice(board.files[1:])) + str(choice(board.ranks[1:]))
 
-choice([knight.knightMoves, bishop.bishopMoves, rook.rookMoves,
-        queen.queenMoves, king.kingMoves])(randomStart)
+# moves.knight.knightMoves("e4")

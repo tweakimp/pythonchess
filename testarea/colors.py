@@ -9,5 +9,5 @@
 # hintergrundfarbe 100-107
 
 for i in range(0, 50):
-    print(f"\033[{i}mAt {i} THIS happens! \033[0m", end="")
-    print(f"\033[{i+60}mAt {i+60} THIS happens! \033[0m")
+    print(f"\x1b[{i}mAt {i} THIS happens! \x1b[0m", end="")
+    print(f"\x1b[{i+60}mAt {i+60} THIS happens! \x1b[0m")

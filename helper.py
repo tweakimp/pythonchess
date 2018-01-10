@@ -9,7 +9,7 @@ def num2let(x):
     return board.files[x]
 
 
-if (board.width in (8, 11)):
+if board.width in (8, 11):
     # a or an depending on board.width
     aORan = "an"
 else:

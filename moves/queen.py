@@ -12,42 +12,42 @@ def queenMoves(position):
     moves = []  # moves are absolute coordinates
 
     # left
-    if(f != 1):
+    if f != 1:
         for i in range(1, f):
             moves.append((f - i, r))
 
     # up and left
-    if(f != 1 or r != board.height):
+    if f != 1 or r != board.height:
         for j in range(1, min(f, board.height + 1 - r)):
             moves.append((f - j, r + j))
 
     # up
-    if(r != board.height):
+    if r != board.height:
         for j in range(1, board.height + 1 - r):
             moves.append((f, r + j))
 
     # up and right
-    if(f != board.width or r != board.height):
+    if f != board.width or r != board.height:
         for k in range(1, min(board.width + 1 - f, board.height + 1 - r)):
             moves.append((f + k, r + k))
 
     # right
-    if(f != board.width):
+    if f != board.width:
         for k in range(1, board.width + 1 - f):
             moves.append((f + k, r))
 
     # down and right
-    if(f != board.width or r != 1):
+    if f != board.width or r != 1:
         for l in range(1, min(board.width + 1 - f, r)):
             moves.append((f + l, r - l))
 
     # down
-    if(r != 1):
+    if r != 1:
         for l in range(1, r):
             moves.append((f, r - l))
 
     # down and left
-    if(f != 1 or r != 1):
+    if f != 1 or r != 1:
         for i in range(1, min(f, r)):
             moves.append((f - i, r - i))
 
@@ -55,5 +55,5 @@ def queenMoves(position):
         print(f"{helper.num2let(move[0])}{move[1]}", end=' ')
 
 
-# TEST
-queenMoves("e3")
+if __name__ == "__main__":
+    queenMoves("e3")

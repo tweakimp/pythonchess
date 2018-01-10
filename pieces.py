@@ -5,6 +5,14 @@ import lists
 import moves
 
 
+def checkTarget(target):
+    # moves = knight.knightMoves(self.position)
+    if target.upper() in moves:
+        return True
+    else:
+        return False
+
+
 class Piece:
     # Summons a piece of given color and position
     def __init__(self, color, value, position):
@@ -41,9 +49,9 @@ class Piece:
         self.position = position.upper()
 
     def move(self, target):
-        if(self.checkTarget(target)):
-            if(board.isEmpty(target)):
-                start = (self.position).upper()
+        if checkTarget(target):
+            if board.isEmpty(target):
+                start = self.position.upper()
                 self.updateBoard(target)
                 print(f"{self.name} moves: {start} > {target.upper()}")
             else:
@@ -54,26 +62,19 @@ class Piece:
     def capture(self, target):
         file = helper.let2num((target[0]).upper())
         rank = int(target[1:])
-        if(board.puzzlemode):
+        if board.puzzlemode:
             print("Capture in puzzlemode")
-            start = (self.position).upper()
+            start = self.position.upper()
             self.updateBoard(target)
             print(f"{self.name} captures: {start} > {target.upper()}")
         else:
             opponent = board.matrix[file - 1][rank - 1]
-            if(self.color != opponent[:1]):
-                start = (self.position).upper()
+            if self.color != opponent[:1]:
+                start = self.position.upper()
                 self.updateBoard(target)
                 print(f"{self.name} captures: {start} > {target.upper()}")
             else:
                 print(f"Can't capture piece of same color")
-
-    def checkTarget(self, target):
-        # moves = knight.knightMoves(self.position)
-        if target.upper() in moves:
-            return True
-        else:
-            return False
 
 
 class Pawn(Piece):
@@ -117,13 +118,13 @@ class King(Piece):
 def listchange(manipulation, input, target=0):
     # manipulation "del" or "move"
     for k, v in pieces.copy().items():
-        if (k == input or v.position == input.upper()):
+        if k == input or v.position == input.upper():
             if manipulation == "del":
-                if(target != 0):
+                if target != 0:
                     print("Unneccessary target!")
                 del pieces[k]
             if manipulation == "move":
-                if(target == 0):
+                if target == 0:
                     print("No target for move!")
                 else:
                     v.position = target.upper()
@@ -187,7 +188,6 @@ def pieceList(modus):
 
 
 def printColumns(xlist, columns, padding, seperator):
-
     # make it rectangualar by filling empty list entries
     missingentries = (columns - len(xlist) % columns) % columns
     for i in range(missingentries):
@@ -206,6 +206,7 @@ def printColumns(xlist, columns, padding, seperator):
             print(xlist[i + (j * columnlength)], end="")
         print("")
 
+
 def printStats(xdict):
     for k, v in xdict.items():
         print(k, end=": ")
@@ -214,9 +215,11 @@ def printStats(xdict):
             print(", ", end="")
     print("")
 
+
 def printPieces():
     printColumns(pieceList(0), 4, 5, " ")
     printStats(pieceList(1))
 
 
-printPieces()
+# printPieces()
+draw.drawMatrix()
