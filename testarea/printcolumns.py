@@ -23,7 +23,6 @@ def printColumns(xlist, columns, padding, seperator):
         difference = columnwidth - len(xlist[i])
         for j in range(difference):
             xlist[i] += seperator
-    
     columnlength = len(xlist) // columns
     for i in range(columnlength):
         for j in range(columns):
@@ -32,3 +31,4 @@ def printColumns(xlist, columns, padding, seperator):
 
 
 printColumns(testlist, 4, 10, " ")
+# TODO printpieces spaltenweise nicht zeilenweise!

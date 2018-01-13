@@ -1,6 +1,7 @@
 import board
 import helper
 
+# TODO rename to colors
 col = ["\033[0m", "\033[1;91m", "\033[1;31m", "\033[1;97m"]
 
 

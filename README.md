@@ -1,4 +1,3 @@
-
 ```
 8 [R][N][B][Q][K][B][N][R]
 7 [P][P][P][P][P][P][P][P]
@@ -8,8 +7,7 @@
 3 [ ][ ][ ][ ][ ][ ][ ][ ]
 2 [P][P][P][P][P][P][P][P]
 1 [R][N][B][Q][K][B][N][R]
-   A  B  C  D  E  F  G  H  
-
+   A  B  C  D  E  F  G  H
 ```
 
 # Pythonchess

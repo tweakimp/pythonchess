@@ -1,1 +1,0 @@
-- printpieces spaltenweise nicht zeilenweise!
