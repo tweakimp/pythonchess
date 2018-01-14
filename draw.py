@@ -5,11 +5,6 @@ import helper
 col = ["\033[0m", "\033[1;91m", "\033[1;31m", "\033[1;97m"]
 
 
-def printMatrix():
-    for line in board.matrix:
-        print(line)
-
-
 def drawMatrix():
     for i in range(0, board.height + 1):
         for j in range(0, board.width + 1):

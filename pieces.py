@@ -1,5 +1,3 @@
-import board
-import draw
 import helper
 import lists
 import moves
@@ -10,26 +8,22 @@ def checkTarget(target):
     if target.upper() in moves:
         return True
     else:
+
         return False
 
 
 class Piece:
-    # Summons a piece of given color and position
-    def __init__(self, color, value, position):
-        # position
+    def __init__(self, color, position):
         self.position = position.upper()
-        # color
         if color == "w":
             self.color = "w"
         elif color == "b":
             self.color = "b"
         else:
             raise Exception("Wrong color (\"w\" or \"b\")")
-        self.value = value.upper()
-        self.short = self.color + self.value
         # place on board
-        file = board.files.index(self.position[0])
-        rank = self.position[1:]
+        boardfile = board.files.index(self.position[0])
+        boardrank = self.position[1:]
         board.matrix[int(file) - 1][int(rank) - 1] = self.short
 
     def pos(self):
@@ -78,13 +72,14 @@ class Piece:
 
 
 class Pawn(Piece):
-    def __init__(self, color, value, position):
+    def __init__(self, color, position):
+        self.value = "p"
         self.short = color + "P"
-        super().__init__(color, value, position)
+        super().__init__(color, self.value, position)
 
 
 class Knight(Piece):
-    def __init__(self, color, value, position):
+    def __init__(self, color, position):
         self.short = color + "N"
         super().__init__(color, value, position)
 
@@ -221,5 +216,5 @@ def printPieces():
     printStats(pieceList(1))
 
 
-# printPieces()
-draw.drawMatrix()
+printPieces()
+# draw.drawMatrix()

@@ -10,6 +10,6 @@
    A  B  C  D  E  F  G  H
 ```
 
-# Pythonchess
+## **Pythonchess**
 
 I'm trying to build a python program that lets you play chess and solve chess puzzles.

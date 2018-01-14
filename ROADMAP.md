@@ -1,12 +1,15 @@
-# **Features**
-## _Must have_
+  ## ROADMAP
+### **Features**
+
+### **Wishlist**
+#### _Must have_
 - ziehen
 - schlagen
 - feld frei überprüfen
 - zugmöglichkeiten überprüfen
 - schach überprüfen
 
-## *Optional*
+#### *Optional*
 - matt möglichkeit überprüfen
 - offizielle notation
 - history

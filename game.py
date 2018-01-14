@@ -1,8 +1,11 @@
-# from random import choice
+import chessboard
 
-# import board
-# import moves.knight
 
-# randomStart = str(choice(board.files[1:])) + str(choice(board.ranks[1:]))
+class Game():
+    def __init__(self):
+        board = chessboard.Board(8, 8)
+        board.printInfo()
 
-# moves.knight.knightMoves("e4")
+
+if __name__ == '__main__':
+    game = Game()
