@@ -1,5 +1,5 @@
 start = [
-    # [name, color, value, position]
+    # [name, color, position]
     ['wApawn', 'w', 'a2'],
     ['wBpawn', 'w', 'b2'],
     ['wCpawn', 'w', 'c2'],

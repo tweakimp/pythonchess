@@ -1,5 +1,8 @@
 from string import ascii_uppercase
 
+import lists
+import pieces
+
 
 class Chessboard():
     def __init__(self, width, height):
@@ -17,16 +20,21 @@ class Chessboard():
         print("height: ", self.height)
         print("files: ", self.files)
         print("ranks: ", self.ranks)
+        print("piecelistRAW: ", self.piecelist)
         self.printPiecelist()
         self.printMatrix()
         self.drawBoard()
+
+    def move(self, oldposition, newposition):
+        # select piece on oldposition
+        pass
 
     def updateMatrix(self):
         for key in self.piecelist:
             position = self.piecelist[key].position
             short = self.piecelist[key].short
-            boardfile = int(self.files.index(position[0]))
-            boardrank = int(position[1:]) - 1
+            boardfile = int(self.files.index(position[0].upper()))
+            boardrank = self.ranks.index(int(position[1:]))
             self.matrix[boardfile][boardrank] = short
 
     def resetBoard(self):
@@ -40,44 +48,48 @@ class Chessboard():
 
     def printPiecelist(self):
         print("piecelist: ")
-        printthis = []
-        for key in self.piecelist:
-            if self.piecelist[key].short[0] == "w":
-                name = "White "
-            elif self.piecelist[key].short[0] == "b":
-                name = "Black "
-            if self.piecelist[key].short[1] == "P":
-                name += "Pawn"
-            elif self.piecelist[key].short[1] == "N":
-                name += "Knight"
-            elif self.piecelist[key].short[1] == "B":
-                name += "Bishop"
-            elif self.piecelist[key].short[1] == "R":
-                name += "Rook"
-            elif self.piecelist[key].short[1] == "Q":
-                name += "Queen"
-            elif self.piecelist[key].short[1] == "K":
-                name += "King"
-            printthis.append(self.piecelist[key].position.upper() + " " + name)
-        # make it rectangualar by filling empty list entries
-        missingentries = (3 - len(printthis) % 3) % 3
-        for i in range(missingentries):
-            printthis.append("")
-        # make entries equally long
-        columnwidth = max(len(row) for row in printthis) + 2
-        for i in range(len(printthis)):
-            difference = columnwidth - len(printthis[i])
-            for j in range(difference):
-                printthis[i] += " "
-        columnlength = len(printthis) // 3
-        for i in range(columnlength):
-            for j in range(3):
-                print(printthis[i + (j * columnlength)], end="")
-            print("")
+        if self.piecelist == {}:
+            print("(empty)")
+        else:
+            printthis = []
+            for key in self.piecelist:
+                if self.piecelist[key].short[0] == "w":
+                    name = "White "
+                elif self.piecelist[key].short[0] == "b":
+                    name = "Black "
+                if self.piecelist[key].short[1] == "P":
+                    name += "Pawn"
+                elif self.piecelist[key].short[1] == "N":
+                    name += "Knight"
+                elif self.piecelist[key].short[1] == "B":
+                    name += "Bishop"
+                elif self.piecelist[key].short[1] == "R":
+                    name += "Rook"
+                elif self.piecelist[key].short[1] == "Q":
+                    name += "Queen"
+                elif self.piecelist[key].short[1] == "K":
+                    name += "King"
+                printthis.append(
+                    self.piecelist[key].position.upper() + " " + name)
+            # make it rectangualar by filling empty list entries
+            missingentries = (3 - len(printthis) % 3) % 3
+            for i in range(missingentries):
+                printthis.append("")
+            # make entries equally long
+            columnwidth = max(len(row) for row in printthis) + 2
+            for i in range(len(printthis)):
+                difference = columnwidth - len(printthis[i])
+                for j in range(difference):
+                    printthis[i] += " "
+            columnlength = len(printthis) // 3
+            for i in range(columnlength):
+                for j in range(3):
+                    print(printthis[i + (j * columnlength)], end="")
+                print("")
 
     def checkSquare(self, position):
-        boardfile = self.files.index((position[0]).upper())
-        boardrank = position[1:]
+        boardfile = int(self.files.index(position[0].upper()))
+        boardrank = self.ranks.index(int(position[1:]))
         if self.matrix[int(boardfile) - 1][int(boardrank) - 1] == "  ":
             return None
         else:
@@ -130,5 +142,21 @@ class Chessboard():
 
 
 if __name__ == '__main__':
-    testboard = Chessboard(8, 8)
-    testboard.printInfo()
+    board = Chessboard(8, 8)
+    # initiate pieces and update piecelist
+    board.piecelist.update({name: pieces.Pawn(color, position)
+                            for name, color, position in lists.pawns})
+    board.piecelist.update({name: pieces.Knight(color, position)
+                            for name, color, position in lists.knights})
+    board.piecelist.update({name: pieces.Bishop(color, position)
+                            for name, color, position in lists.bishops})
+    board.piecelist.update({name: pieces.Rook(color, position)
+                            for name, color, position in lists.rooks})
+    board.piecelist.update({name: pieces.Queen(color, position)
+                            for name, color, position in lists.queens})
+    board.piecelist.update({name: pieces.King(color, position)
+                            for name, color, position in lists.kings})
+
+    # update matrix
+    board.updateMatrix()
+    board.printInfo()
