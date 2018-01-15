@@ -31,4 +31,3 @@ def printColumns(xlist, columns, padding, seperator):
 
 
 printColumns(testlist, 4, 10, " ")
-# TODO printpieces spaltenweise nicht zeilenweise!

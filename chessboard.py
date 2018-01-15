@@ -1,3 +1,4 @@
+import importlib
 from string import ascii_uppercase
 
 import lists
@@ -25,21 +26,31 @@ class Chessboard():
         self.printMatrix()
         self.drawBoard()
 
-    def move(self, oldposition, newposition):
-        # select piece on oldposition
-        pass
+    def movePiece(self, string, newposition):
+        for name, obj in self.piecelist.copy().items():
+            if name == string or obj.position == string.upper():
+                if newposition.upper() in obj.move(self):
+                    obj.position = newposition.upper()
+                else:
+                    print("cant go there!")
+
+    def deletePiece(self, string):
+        for k, v in pieces.copy().items():
+            if k == string or v.position == string.upper():
+                del pieces[k]
+
+    def resetMatrix(self):
+        self.matrix = [["  " for h in range(0, self.height)]
+                       for w in range(0, self.width)]
 
     def updateMatrix(self):
+        self.resetMatrix()
         for key in self.piecelist:
             position = self.piecelist[key].position
             short = self.piecelist[key].short
             boardfile = int(self.files.index(position[0].upper()))
             boardrank = self.ranks.index(int(position[1:]))
             self.matrix[boardfile][boardrank] = short
-
-    def resetBoard(self):
-        self.matrix = [["  " for h in range(0, self.height)]
-                       for w in range(0, self.width)]
 
     def printMatrix(self):
         print("matrix: ")
@@ -99,6 +110,23 @@ class Chessboard():
         # TODO create this
         pass
 
+    def initiatePieces(self):
+        # initiate pieces and update piecelist
+        self.piecelist.update({name: pieces.Pawn(color, position)
+                               for name, color, position in lists.pawns})
+        self.piecelist.update({name: pieces.Knight(color, position)
+                               for name, color, position in lists.knights})
+        self.piecelist.update({name: pieces.Bishop(color, position)
+                               for name, color, position in lists.bishops})
+        self.piecelist.update({name: pieces.Rook(color, position)
+                               for name, color, position in lists.rooks})
+        self.piecelist.update({name: pieces.Queen(color, position)
+                               for name, color, position in lists.queens})
+        self.piecelist.update({name: pieces.King(color, position)
+                               for name, color, position in lists.kings})
+        # update matrix
+        self.updateMatrix()
+
     def drawBoard(self):
 
         color = ["\033[0m", "\033[1;91m", "\033[1;31m", "\033[1;97m"]
@@ -142,21 +170,11 @@ class Chessboard():
 
 
 if __name__ == '__main__':
+    importlib.reload(pieces)
     board = Chessboard(8, 8)
-    # initiate pieces and update piecelist
-    board.piecelist.update({name: pieces.Pawn(color, position)
-                            for name, color, position in lists.pawns})
-    board.piecelist.update({name: pieces.Knight(color, position)
-                            for name, color, position in lists.knights})
-    board.piecelist.update({name: pieces.Bishop(color, position)
-                            for name, color, position in lists.bishops})
-    board.piecelist.update({name: pieces.Rook(color, position)
-                            for name, color, position in lists.rooks})
-    board.piecelist.update({name: pieces.Queen(color, position)
-                            for name, color, position in lists.queens})
-    board.piecelist.update({name: pieces.King(color, position)
-                            for name, color, position in lists.kings})
-
-    # update matrix
+    board.initiatePieces()
+    board.printInfo()
+    board.movePiece("c1", "e3")
     board.updateMatrix()
     board.printInfo()
+    print(board.piecelist["wBbishop"].move(board))

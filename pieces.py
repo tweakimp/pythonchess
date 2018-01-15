@@ -36,14 +36,37 @@ class Knight(Piece):
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
                     moves.append(f"{board.files[newf]}{board.ranks[newr]}")
-        print(moves)
-        # return moves
+        return moves
 
 
 class Bishop(Piece):
     def __init__(self, color, position):
         self.short = color + "B"
         super().__init__(color, position)
+
+    def move(self, board):
+        # calculate all bishop moves from position
+        boardfile = int(board.files.index(self.position[0].upper()))
+        boardrank = board.ranks.index(int(self.position[1:]))
+        f, r = int(boardfile), int(boardrank)
+        moves = []
+        # down and left
+        if f != 0 and r != 0:
+            for i in range(1,  1 + min(f, r)):
+                moves.append(f"{board.files[f - i]}{board.ranks[r - i]}")
+        # up and left
+        if f != 0 and r != board.height - 1:
+            for j in range(1, 1 + min(f, board.height - 1 - r)):
+                moves.append(f"{board.files[f - j]}{board.ranks[r + j]}")
+        # up and right
+        if f != board.width - 1 and r != board.height - 1:
+            for k in range(1, min(board.width - f, board.height - r)):
+                moves.append(f"{board.files[f + k]}{board.ranks[r + k]}")
+        # down and right
+        if f != board.width - 1 and r != 0:
+            for l in range(1, 1 + min(board.width - 1 - f, r)):
+                moves.append(f"{board.files[f + l]}{board.ranks[r - l]}")
+        return moves
 
 
 class Rook(Piece):
