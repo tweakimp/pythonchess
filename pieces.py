@@ -87,3 +87,19 @@ class King(Piece):
         self.short = color + "K"
         super().__init__(color, position)
         self.canCastle = True
+
+    def move(self, board):
+        # calculate all king moves from position
+        boardfile = int(board.files.index(self.position[0].upper()))
+        boardrank = board.ranks.index(int(self.position[1:]))
+        f, r = int(boardfile), int(boardrank)
+        directions = ((-1, -1), (-1, 0), (-1, 1), (0, -1),
+                      (0, 1), (1, -1), (1, 0), (1, 1))
+        moves = []
+        for direction in directions:
+            newf = f + direction[0]
+            newr = r + direction[1]
+            if newf in range(0, board.width):
+                if newr in range(0, board.height):
+                    moves.append(f"{board.files[newf]}{board.ranks[newr]}")
+        return moves

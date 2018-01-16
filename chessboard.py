@@ -106,9 +106,13 @@ class Chessboard():
         else:
             return str(self.matrix[int(boardfile) - 1][int(boardrank) - 1])
 
-    def underAttack(self, color):
-        # TODO create this
-        pass
+    def pieceShowMoves(self, string):
+        for name, obj in self.piecelist.copy().items():
+            if name == string or obj.position == string.upper():
+                for move in obj.move(self):
+                    boardfile = int(self.files.index(move[0].upper()))
+                    boardrank = self.ranks.index(int(move[1:]))
+                    self.matrix[boardfile][boardrank] = f"{obj.color}X"
 
     def initiatePieces(self):
         # initiate pieces and update piecelist
@@ -127,28 +131,38 @@ class Chessboard():
         # update matrix
         self.updateMatrix()
 
+    def initTest(self):
+        self.piecelist.update({name: pieces.King(color, position)
+                               for name, color, position in [
+                               ["test", "w", "c6"]]})
+        # update matrix
+        self.updateMatrix()
+
     def drawBoard(self):
 
-        color = ["\033[0m", "\033[1;91m", "\033[1;31m", "\033[1;97m"]
+        color = ["\033[0m", "\033[1;91m", "\033[1;31m", "\033[0;97m"]
 
         def printPiece(x):
+            codedict = {" ": 12288, "K": 9812, "Q": 9813, "R": 9820,
+                        "B": 9821, "N": 9822, "P": 9823}
+            code = codedict[x[1]]
             if x[0] == "w":
-                print(f"{color[3]}{x[1:]}{color[0]}", end="")
+                print(f"{color[3]}{chr(code)}{color[0]}", end="")
             elif x[0] == "b":
-                print(f"{color[0]}{x[1:]}{color[0]}", end="")
+                print(f"{color[0]}{chr(code)}{color[0]}", end="")
             else:
-                print(f" ", end="")
+                print(f"{color[0]}{chr(code)}{color[0]}", end="")
 
         for i in range(0, self.height + 1):
             for j in range(0, self.width + 1):
                 if i == self.height:
                     if j == 0:
                         # bottom left corner
-                        print("", end="   ")
+                        print("", end=f"{chr(12288)}{chr(12288)}")
                     else:
                         # bottom letter row
                         print(
-                            f"{color[1]}{self.files[j-1]}{color[0]}", end="  ")
+                            f"{color[1]}{self.files[j-1]}{color[0]}", end=f" {chr(12288)}")
                 else:
                     if j == 0:
                         # left number column
