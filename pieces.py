@@ -20,6 +20,7 @@ class Pawn(Piece):
 class Knight(Piece):
     def __init__(self, color, position):
         self.short = color + "N"
+        self.name = "White Knight" if color == "w" else "Black Knight"
         super().__init__(color,  position)
 
     def move(self, board):
@@ -42,6 +43,7 @@ class Knight(Piece):
 class Bishop(Piece):
     def __init__(self, color, position):
         self.short = color + "B"
+        self.name = "White Bishop" if color == "w" else "Black Bishop"
         super().__init__(color, position)
 
     def move(self, board):

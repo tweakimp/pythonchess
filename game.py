@@ -1,8 +1,8 @@
 import importlib
 
 import chessboard
-import pieces
 import lists
+import pieces
 
 # TODO: count number of moves
 # TODO: track captured pieces
@@ -20,8 +20,6 @@ class Game():
         # print(board.piecelist["wBbishop"].move(board))
         # print("bBbishop: ", board.piecelist["bBbishop"].position)
         # print(board.piecelist["bBbishop"].move(board))
-
-
 
     def movePiece(self, board, name, newposition):
         pass

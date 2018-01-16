@@ -27,12 +27,15 @@ class Chessboard():
         self.drawBoard()
 
     def movePiece(self, string, newposition):
+        newposition = newposition.upper()
         for name, obj in self.piecelist.copy().items():
             if name == string or obj.position == string.upper():
-                if newposition.upper() in obj.move(self):
-                    obj.position = newposition.upper()
+                if newposition in obj.move(self):
+                    obj.position = newposition
                 else:
-                    print("cant go there!")
+                    print(
+                        f"\033[91m{chr(9888)} {obj.name} on {obj.position} ", end="")
+                    print(f"can't go to {newposition}!\033[0m")
 
     def deletePiece(self, string):
         for k, v in pieces.copy().items():
@@ -112,7 +115,7 @@ class Chessboard():
                 for move in obj.move(self):
                     boardfile = int(self.files.index(move[0].upper()))
                     boardrank = self.ranks.index(int(move[1:]))
-                    self.matrix[boardfile][boardrank] = f"{obj.color}X"
+                    self.matrix[boardfile][boardrank] = f"xX"
 
     def initiatePieces(self):
         # initiate pieces and update piecelist
@@ -140,46 +143,50 @@ class Chessboard():
 
     def drawBoard(self):
 
-        color = ["\033[0m", "\033[1;91m", "\033[1;31m", "\033[0;97m"]
+        color = ["\033[0m", "\033[91m", "\033[31m", "\033[97m"]
 
         def printPiece(x):
-            codedict = {" ": 12288, "K": 9812, "Q": 9813, "R": 9820,
-                        "B": 9821, "N": 9822, "P": 9823}
-            code = codedict[x[1]]
+            codedict = {"K": "♔", "Q": "♕", "R": "♜",
+                        "B": "♝", "N": "♞", "P": "♟"}
             if x[0] == "w":
-                print(f"{color[3]}{chr(code)}{color[0]}", end="")
+                print(f"{color[3]}{codedict[x[1]]}{color[0]}", end="")
             elif x[0] == "b":
-                print(f"{color[0]}{chr(code)}{color[0]}", end="")
+                print(f"{color[0]}{codedict[x[1]]}{color[0]}", end="")
+            elif x[0] == "x":
+                print(f"{color[3]}ᆞ{color[0]}", end="")  # chr(4510) [ᆞ]
             else:
-                print(f"{color[0]}{chr(code)}{color[0]}", end="")
+                print("ᅟ", end="")  # chr(4447) [ᅟ]
+
+        def drawInLoops(i, j):
+            if i == self.height:
+                if j == 0:
+                    # bottom left corner
+                    print("", end=f"{chr(12288)}{chr(12288)}")
+                else:
+                    # bottom letter row
+                    print(f"{color[1]}{self.files[j-1]}{color[0]}",
+                          end=f" {chr(12288)}")
+            else:
+                if j == 0:
+                    # left number column
+                    print(
+                        f"{color[1]}{self.ranks[-i-1]}{color[0]}", end=" ")
+                else:
+                    # squares
+                    # drawn matrix is 1 higher
+                    # and wider than self.matrix
+                    if (j + self.height - i) % 2 == 1:
+                        squarecolor = color[1]
+                    else:
+                        squarecolor = color[2]
+                    print(f"{squarecolor}[{color[0]}", end="")
+                    piece = self.matrix[j - 1][self.height - i - 1]
+                    printPiece(piece)
+                    print(f"{squarecolor}]{color[0]}", end="")
 
         for i in range(0, self.height + 1):
             for j in range(0, self.width + 1):
-                if i == self.height:
-                    if j == 0:
-                        # bottom left corner
-                        print("", end=f"{chr(12288)}{chr(12288)}")
-                    else:
-                        # bottom letter row
-                        print(
-                            f"{color[1]}{self.files[j-1]}{color[0]}", end=f" {chr(12288)}")
-                else:
-                    if j == 0:
-                        # left number column
-                        print(
-                            f"{color[1]}{self.ranks[-i-1]}{color[0]}", end=" ")
-                    else:
-                        # squares
-                        # drawn matrix is 1 higher
-                        # and wider than self.matrix
-                        if (j + self.height - i) % 2 == 1:
-                            squarecolor = color[1]
-                        else:
-                            squarecolor = color[2]
-                        print(f"{squarecolor}[{color[0]}", end="")
-                        piece = self.matrix[j - 1][self.height - i - 1]
-                        printPiece(piece)
-                        print(f"{squarecolor}]{color[0]}", end="")
+                drawInLoops(i, j)
             print("")
 
 
@@ -188,7 +195,7 @@ if __name__ == '__main__':
     board = Chessboard(8, 8)
     board.initiatePieces()
     board.printInfo()
-    board.movePiece("c1", "e3")
+    board.movePiece("c1", "e4")
     board.updateMatrix()
     board.printInfo()
     print(board.piecelist["wBbishop"].move(board))

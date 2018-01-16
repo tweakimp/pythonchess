@@ -31,12 +31,3 @@ def printColumns(xlist, columns, padding, seperator):
 
 
 # printColumns(testlist, 4, 10, " ")
-
-
-import sys
-
-for i in range(sys.maxunicode):
-    try:
-        print("Nr. ", i, chr(i))
-    except UnicodeEncodeError:
-        print("Nr. ", i, "UnicodeEncodeError")
