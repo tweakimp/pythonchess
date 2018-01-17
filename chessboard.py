@@ -1,4 +1,5 @@
 import importlib
+from random import choice
 from string import ascii_uppercase
 
 import lists
@@ -33,14 +34,13 @@ class Chessboard():
                 if newposition in obj.move(self):
                     obj.position = newposition
                 else:
-                    print(
-                        f"\033[91m{chr(9888)} {obj.name} on {obj.position} ", end="")
-                    print(f"can't go to {newposition}!\033[0m")
+                    print(f"\033[91m{chr(9888)} {obj.name} on ", end="")
+                    print(f"{obj.position} can't go to {newposition}!\033[0m")
 
     def deletePiece(self, string):
-        for k, v in pieces.copy().items():
+        for k, v in self.piecelist.copy().items():
             if k == string or v.position == string.upper():
-                del pieces[k]
+                del self.piecelist[k]
 
     def resetMatrix(self):
         self.matrix = [["  " for h in range(0, self.height)]
@@ -135,9 +135,10 @@ class Chessboard():
         self.updateMatrix()
 
     def initTest(self):
-        self.piecelist.update({name: pieces.King(color, position)
+        randomPos = str(choice(self.files)) + str(choice(self.ranks))
+        self.piecelist.update({name: pieces.Knight(color, position)
                                for name, color, position in [
-                               ["test", "w", "c6"]]})
+                               ["test", "w", f"{randomPos}"]]})
         # update matrix
         self.updateMatrix()
 
