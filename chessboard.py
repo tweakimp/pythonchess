@@ -136,9 +136,9 @@ class Chessboard():
 
     def initTest(self):
         randomPos = str(choice(self.files)) + str(choice(self.ranks))
-        self.piecelist.update({name: pieces.Knight(color, position)
+        self.piecelist.update({name: pieces.Pawn(color, position)
                                for name, color, position in [
-                               ["test", "w", f"{randomPos}"]]})
+                               ["test", "b", f"{randomPos}"]]})
         # update matrix
         self.updateMatrix()
 
