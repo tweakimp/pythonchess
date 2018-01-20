@@ -68,6 +68,19 @@ class Bishop(Piece):
         super().__init__(color, position)
 
     def move(self, board):
+        def freePath(target):
+            if board.checkSquare(target) is None:
+                return True
+            elif board.checkSquare(target) == self.color:
+                return False
+            else:
+                return "capture"
+
+        def capture(target):
+            print(f"Bishop can capture at {target}.")
+
+        def blocked(target):
+            print(f"Bishop path blocked at {target}.")
         # calculate all bishop moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
         boardrank = board.ranks.index(int(self.position[1:]))
@@ -76,19 +89,59 @@ class Bishop(Piece):
         # down and left
         if f != 0 and r != 0:
             for i in range(1,  1 + min(f, r)):
-                moves.append(f"{board.files[f - i]}{board.ranks[r - i]}")
+                square = f"{board.files[f - i]}{board.ranks[r - i]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # up and left
         if f != 0 and r != board.height - 1:
             for j in range(1, 1 + min(f, board.height - 1 - r)):
-                moves.append(f"{board.files[f - j]}{board.ranks[r + j]}")
+                square = f"{board.files[f - j]}{board.ranks[r + j]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # up and right
         if f != board.width - 1 and r != board.height - 1:
             for k in range(1, min(board.width - f, board.height - r)):
-                moves.append(f"{board.files[f + k]}{board.ranks[r + k]}")
+                square = f"{board.files[f + k]}{board.ranks[r + k]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # down and right
         if f != board.width - 1 and r != 0:
             for l in range(1, 1 + min(board.width - 1 - f, r)):
-                moves.append(f"{board.files[f + l]}{board.ranks[r - l]}")
+                square = f"{board.files[f +l]}{board.ranks[r - l]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         return moves
 
 
@@ -105,10 +158,12 @@ class Rook(Piece):
                 return False
             else:
                 return "capture"
+
         def capture(target):
-            print(f"Capture at {target}.")
+            print(f"Rook can capture at {target}.")
+
         def blocked(target):
-            print(f"Path blocked at {target}.")
+            print(f"Rook path blocked at {target}.")
         # calculate all rook moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
         boardrank = board.ranks.index(int(self.position[1:]))
@@ -118,51 +173,55 @@ class Rook(Piece):
         if f != 0:
             for i in range(1, f + 1):
                 square = f"{board.files[f - i]}{board.ranks[r]}"
-                if freePath(square) is True:
+                check = freePath(square)
+                if check is True:
                     moves.append(square)
-                elif freePath(square) is False:
+                elif check is False:
                     blocked(square)
                     break
-                elif freePath(square) == "capture":
+                elif check == "capture":
                     moves.append(square)
                     capture(square)
                     break
         # up
         if r != board.height - 1:
             for j in range(1, board.height - r):
-                square = f"{board.files[f]}{board.ranks[r + j]}"
-                if freePath(square) is True:
+                square = f"{board.files[f]}{board.ranks[r+j]}"
+                check = freePath(square)
+                if check is True:
                     moves.append(square)
-                elif freePath(square) is False:
+                elif check is False:
                     blocked(square)
                     break
-                elif freePath(square) == "capture":
+                elif check == "capture":
                     moves.append(square)
                     capture(square)
                     break
         # right
         if f != board.width - 1:
             for k in range(1, board.width - f):
-                square = f"{board.files[f + k]}{board.ranks[r]}"
-                if freePath(square) is True:
+                square = f"{board.files[f +k]}{board.ranks[r]}"
+                check = freePath(square)
+                if check is True:
                     moves.append(square)
-                elif freePath(square) is False:
+                elif check is False:
                     blocked(square)
                     break
-                elif freePath(square) == "capture":
+                elif check == "capture":
                     moves.append(square)
                     capture(square)
                     break
         # down
         if r != 0:
             for l in range(1, r + 1):
-                square = f"{board.files[f]}{board.ranks[r - l]}"
-                if freePath(square) is True:
+                square = f"{board.files[f]}{board.ranks[r-l]}"
+                check = freePath(square)
+                if check is True:
                     moves.append(square)
-                elif freePath(square) is False:
+                elif check is False:
                     blocked(square)
                     break
-                elif freePath(square) == "capture":
+                elif check == "capture":
                     moves.append(square)
                     capture(square)
                     break
@@ -175,6 +234,19 @@ class Queen(Piece):
         super().__init__(color, position)
 
     def move(self, board):
+        def freePath(target):
+            if board.checkSquare(target) is None:
+                return True
+            elif board.checkSquare(target) == self.color:
+                return False
+            else:
+                return "capture"
+
+        def capture(target):
+            print(f"Queen can capture at {target}.")
+
+        def blocked(target):
+            print(f"Queen path blocked at {target}.")
         # calculate all queen moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
         boardrank = board.ranks.index(int(self.position[1:]))
@@ -183,35 +255,115 @@ class Queen(Piece):
         # down and left
         if f != 0 and r != 0:
             for i in range(1,  1 + min(f, r)):
-                moves.append(f"{board.files[f - i]}{board.ranks[r - i]}")
+                square = f"{board.files[f -i]}{board.ranks[r-i]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # left
         if f != 0:
             for i in range(1, f + 1):
-                moves.append(f"{board.files[f - i]}{board.ranks[r]}")
+                square = f"{board.files[f -i]}{board.ranks[r]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # up and left
         if f != 0 and r != board.height - 1:
             for j in range(1, 1 + min(f, board.height - 1 - r)):
-                moves.append(f"{board.files[f - j]}{board.ranks[r + j]}")
+                square = f"{board.files[f -j]}{board.ranks[r+j]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # up
         if r != board.height - 1:
             for j in range(1, board.height - r):
-                moves.append((f"{board.files[f]}{board.ranks[r + j]}"))
+                square = f"{board.files[f]}{board.ranks[r+j]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # up and right
         if f != board.width - 1 and r != board.height - 1:
             for k in range(1, min(board.width - f, board.height - r)):
-                moves.append(f"{board.files[f + k]}{board.ranks[r + k]}")
+                square = f"{board.files[f +k]}{board.ranks[r+k]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # right
         if f != board.width - 1:
             for k in range(1, board.width - f):
-                moves.append((f"{board.files[f +k]}{board.ranks[r]}"))
+                square = f"{board.files[f +k]}{board.ranks[r]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # down and right
         if f != board.width - 1 and r != 0:
             for l in range(1, 1 + min(board.width - 1 - f, r)):
-                moves.append(f"{board.files[f + l]}{board.ranks[r - l]}")
+                square = f"{board.files[f +l]}{board.ranks[r-l]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # down
         if r != 0:
             for l in range(1, r + 1):
-                moves.append((f"{board.files[f]}{board.ranks[r - l]}"))
+                square = f"{board.files[f]}{board.ranks[r-l]}"
+                check = freePath(square)
+                if check is True:
+                    moves.append(square)
+                elif check is False:
+                    blocked(square)
+                    break
+                elif check == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         return moves
 
 

@@ -1,14 +1,15 @@
-from random import choice
 from string import ascii_uppercase
 
 
-selffiles = ascii_uppercase[:8]
-selfranks = range(1, 8 + 1)
+class testclass():
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.files = ascii_uppercase[:self.width]
+        self.ranks = range(1, self.height + 1)
+
+        self.listOfSquares = [x + str(y) for x in self.files for y in self.ranks]
 
 
-def randomPos():
-    position = str(choice(selffiles)) + str(choice(selfranks))
-    return position
-
-
-print(randomPos())
+a = testclass(8, 8)
+print(a.listOfSquares)

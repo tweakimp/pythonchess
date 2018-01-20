@@ -13,7 +13,7 @@ class Game():
         board = chessboard.Chessboard(8, 8)
         # board.initiatePieces()
         board.initTest()
-        board.pieceShowMoves("testw")
+        board.pieceShowMoves("test1")
         board.drawBoard()
         # board.printInfo()
         # print("wBbishop: ", board.piecelist["wBbishop"].position)

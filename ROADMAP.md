@@ -2,12 +2,13 @@
 ### **Features**
 
 ### **Wishlist**
-#### _Must have_
+#### *Must have*
 - ziehen
 - schlagen
 - feld frei überprüfen
 - zugmöglichkeiten überprüfen
 - schach überprüfen
+- Klasse Feld hinzufügen
 
 #### *Optional*
 - matt möglichkeit überprüfen
