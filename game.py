@@ -1,5 +1,4 @@
 import importlib
-
 import chessboard
 import lists
 import pieces
@@ -14,7 +13,7 @@ class Game():
         board = chessboard.Chessboard(8, 8)
         # board.initiatePieces()
         board.initTest()
-        board.pieceShowMoves("test")
+        board.pieceShowMoves("testw")
         board.drawBoard()
         # board.printInfo()
         # print("wBbishop: ", board.piecelist["wBbishop"].position)

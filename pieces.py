@@ -98,6 +98,17 @@ class Rook(Piece):
         super().__init__(color, position)
 
     def move(self, board):
+        def freePath(target):
+            if board.checkSquare(target) is None:
+                return True
+            elif board.checkSquare(target) == self.color:
+                return False
+            else:
+                return "capture"
+        def capture(target):
+            print(f"Capture at {target}.")
+        def blocked(target):
+            print(f"Path blocked at {target}.")
         # calculate all rook moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
         boardrank = board.ranks.index(int(self.position[1:]))
@@ -106,19 +117,55 @@ class Rook(Piece):
         # left
         if f != 0:
             for i in range(1, f + 1):
-                moves.append(f"{board.files[f - i]}{board.ranks[r]}")
+                square = f"{board.files[f - i]}{board.ranks[r]}"
+                if freePath(square) is True:
+                    moves.append(square)
+                elif freePath(square) is False:
+                    blocked(square)
+                    break
+                elif freePath(square) == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # up
         if r != board.height - 1:
             for j in range(1, board.height - r):
-                moves.append((f"{board.files[f]}{board.ranks[r + j]}"))
+                square = f"{board.files[f]}{board.ranks[r + j]}"
+                if freePath(square) is True:
+                    moves.append(square)
+                elif freePath(square) is False:
+                    blocked(square)
+                    break
+                elif freePath(square) == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # right
         if f != board.width - 1:
             for k in range(1, board.width - f):
-                moves.append((f"{board.files[f +k]}{board.ranks[r]}"))
+                square = f"{board.files[f + k]}{board.ranks[r]}"
+                if freePath(square) is True:
+                    moves.append(square)
+                elif freePath(square) is False:
+                    blocked(square)
+                    break
+                elif freePath(square) == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         # down
         if r != 0:
             for l in range(1, r + 1):
-                moves.append((f"{board.files[f]}{board.ranks[r - l]}"))
+                square = f"{board.files[f]}{board.ranks[r - l]}"
+                if freePath(square) is True:
+                    moves.append(square)
+                elif freePath(square) is False:
+                    blocked(square)
+                    break
+                elif freePath(square) == "capture":
+                    moves.append(square)
+                    capture(square)
+                    break
         return moves
 
 

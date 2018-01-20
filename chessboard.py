@@ -16,16 +16,28 @@ class Chessboard():
         self.capturedlist = []
         self.matrix = [["  " for h in range(0, self.height)]
                        for w in range(0, self.width)]
+        self.pieceMoves = []
 
-    def printInfo(self):
-        print("width: ", self.width)
-        print("height: ", self.height)
-        print("files: ", self.files)
-        print("ranks: ", self.ranks)
-        print("piecelistRAW: ", self.piecelist)
-        self.printPiecelist()
-        self.printMatrix()
-        self.drawBoard()
+    def resetMatrix(self):
+        self.matrix = [["  " for h in range(0, self.height)]
+                       for w in range(0, self.width)]
+
+    def updateMatrix(self):
+        self.resetMatrix()
+        for key in self.piecelist:
+            position = self.piecelist[key].position
+            short = self.piecelist[key].short
+            boardfile = int(self.files.index(position[0].upper()))
+            boardrank = self.ranks.index(int(position[1:]))
+            self.matrix[boardfile][boardrank] = short
+
+    def checkSquare(self, position):
+        boardfile = int(self.files.index(position[0].upper()))
+        boardrank = self.ranks.index(int(position[1:]))
+        if self.matrix[int(boardfile)][int(boardrank)] == "  ":
+            return None
+        else:
+            return self.matrix[int(boardfile)][int(boardrank)][0]
 
     def movePiece(self, string, newposition):
         newposition = newposition.upper()
@@ -42,23 +54,112 @@ class Chessboard():
             if k == string or v.position == string.upper():
                 del self.piecelist[k]
 
-    def resetMatrix(self):
-        self.matrix = [["  " for h in range(0, self.height)]
-                       for w in range(0, self.width)]
+    def pieceShowMoves(self, string):
+        for name, obj in self.piecelist.copy().items():
+            if name == string or obj.position == string.upper():
+                for move in obj.move(self):
+                    self.pieceMoves.append(move)
 
-    def updateMatrix(self):
-        self.resetMatrix()
-        for key in self.piecelist:
-            position = self.piecelist[key].position
-            short = self.piecelist[key].short
-            boardfile = int(self.files.index(position[0].upper()))
-            boardrank = self.ranks.index(int(position[1:]))
-            self.matrix[boardfile][boardrank] = short
+    def initiatePieces(self):
+        # initiate pieces and update piecelist
+        self.piecelist.update({name: pieces.Pawn(color, position)
+                               for name, color, position in lists.pawns})
+        self.piecelist.update({name: pieces.Knight(color, position)
+                               for name, color, position in lists.knights})
+        self.piecelist.update({name: pieces.Bishop(color, position)
+                               for name, color, position in lists.bishops})
+        self.piecelist.update({name: pieces.Rook(color, position)
+                               for name, color, position in lists.rooks})
+        self.piecelist.update({name: pieces.Queen(color, position)
+                               for name, color, position in lists.queens})
+        self.piecelist.update({name: pieces.King(color, position)
+                               for name, color, position in lists.kings})
+        # update matrix
+        self.updateMatrix()
 
-    def printMatrix(self):
-        print("matrix: ")
-        for line in self.matrix:
-            print(line)
+    def initTest(self):
+        a = choice(self.files)
+        b = choice(self.ranks)
+        c = a
+        d = b
+        while a == c and b == d:
+            c = choice(self.files)
+            d = choice(self.ranks)
+        randomPos1 = str(a) + str(b)
+        randomPos2 = str(c) + str(d)
+        print(randomPos1, randomPos2)
+        self.piecelist.update({name: pieces.Rook(color, position)
+                               for name, color, position in [
+                               ["testw", "w", f"{randomPos1}"]]})
+        self.piecelist.update({name: pieces.Queen(color, position)
+                               for name, color, position in [
+                               ["testb", "w", f"{randomPos2}"]]})
+        # update matrix
+        self.updateMatrix()
+
+    def drawBoard(self):
+
+        color = ["\033[0m", "\033[91m", "\033[31m", "\033[97m", "\033[92m"]
+        #         no color   lightred      red         white       green
+
+        def printPiece(x):
+            codedict = {"K": "♔", "Q": "♕", "R": "♜",
+                        "B": "♝", "N": "♞", "P": "♟"}
+            if x[0] == "w":
+                print(f"{color[3]}{codedict[x[1]]}{color[0]}", end="")
+            elif x[0] == "b":
+                print(f"{color[0]}{codedict[x[1]]}{color[0]}", end="")
+            elif x[0] == "x":
+                print(f"{color[3]}ᆞ{color[0]}", end="")  # chr(4510) [ᆞ]
+            else:
+                print("ᅟ", end="")  # chr(4447) [ᅟ]
+
+        def drawInLoops(i, j):
+            if i == self.height:
+                if j == 0:
+                    # bottom left corner
+                    print("", end=f"{chr(12288)}{chr(12288)}")
+                else:
+                    # bottom letter row
+                    print(f"{color[1]}{self.files[j-1]}{color[0]}",
+                          end=f" {chr(12288)}")
+            else:
+                if j == 0:
+                    # left number column
+                    print(
+                        f"{color[1]}{self.ranks[-i-1]}{color[0]}", end=" ")
+                else:
+                    # squares
+                    # drawn matrix is 1 higher
+                    # and wider than self.matrix
+                    current = str(self.files[j - 1]) + \
+                        str(self.ranks[self.height - i - 1])
+                    if current in self.pieceMoves:
+                        squarecolor = color[4]
+                    else:
+                        if (j + self.height - i) % 2 == 1:
+                            squarecolor = color[1]
+                        else:
+                            squarecolor = color[2]
+                    print(f"{squarecolor}[{color[0]}", end="")
+                    piece = self.matrix[j - 1][self.height - i - 1]
+                    printPiece(piece)
+                    print(f"{squarecolor}]{color[0]}", end="")
+
+        for i in range(0, self.height + 1):
+            for j in range(0, self.width + 1):
+                drawInLoops(i, j)
+            print("")
+
+    def printInfo(self):
+        print("width: ", self.width)
+        print("height: ", self.height)
+        print("files: ", self.files)
+        print("ranks: ", self.ranks)
+        print("piecelistRAW: ", self.piecelist)
+        self.printPiecelist()
+        self.printMatrix()
+        self.drawBoard()
 
     def printPiecelist(self):
         print("piecelist: ")
@@ -101,94 +202,10 @@ class Chessboard():
                     print(printthis[i + (j * columnlength)], end="")
                 print("")
 
-    def checkSquare(self, position):
-        boardfile = int(self.files.index(position[0].upper()))
-        boardrank = self.ranks.index(int(position[1:]))
-        if self.matrix[int(boardfile) - 1][int(boardrank) - 1] == "  ":
-            return None
-        else:
-            return str(self.matrix[int(boardfile) - 1][int(boardrank) - 1])
-
-    def pieceShowMoves(self, string):
-        for name, obj in self.piecelist.copy().items():
-            if name == string or obj.position == string.upper():
-                for move in obj.move(self):
-                    boardfile = int(self.files.index(move[0].upper()))
-                    boardrank = self.ranks.index(int(move[1:]))
-                    self.matrix[boardfile][boardrank] = f"xX"
-
-    def initiatePieces(self):
-        # initiate pieces and update piecelist
-        self.piecelist.update({name: pieces.Pawn(color, position)
-                               for name, color, position in lists.pawns})
-        self.piecelist.update({name: pieces.Knight(color, position)
-                               for name, color, position in lists.knights})
-        self.piecelist.update({name: pieces.Bishop(color, position)
-                               for name, color, position in lists.bishops})
-        self.piecelist.update({name: pieces.Rook(color, position)
-                               for name, color, position in lists.rooks})
-        self.piecelist.update({name: pieces.Queen(color, position)
-                               for name, color, position in lists.queens})
-        self.piecelist.update({name: pieces.King(color, position)
-                               for name, color, position in lists.kings})
-        # update matrix
-        self.updateMatrix()
-
-    def initTest(self):
-        randomPos = str(choice(self.files)) + str(choice(self.ranks))
-        self.piecelist.update({name: pieces.Pawn(color, position)
-                               for name, color, position in [
-                               ["test", "b", f"{randomPos}"]]})
-        # update matrix
-        self.updateMatrix()
-
-    def drawBoard(self):
-
-        color = ["\033[0m", "\033[91m", "\033[31m", "\033[97m"]
-
-        def printPiece(x):
-            codedict = {"K": "♔", "Q": "♕", "R": "♜",
-                        "B": "♝", "N": "♞", "P": "♟"}
-            if x[0] == "w":
-                print(f"{color[3]}{codedict[x[1]]}{color[0]}", end="")
-            elif x[0] == "b":
-                print(f"{color[0]}{codedict[x[1]]}{color[0]}", end="")
-            elif x[0] == "x":
-                print(f"{color[3]}ᆞ{color[0]}", end="")  # chr(4510) [ᆞ]
-            else:
-                print("ᅟ", end="")  # chr(4447) [ᅟ]
-
-        def drawInLoops(i, j):
-            if i == self.height:
-                if j == 0:
-                    # bottom left corner
-                    print("", end=f"{chr(12288)}{chr(12288)}")
-                else:
-                    # bottom letter row
-                    print(f"{color[1]}{self.files[j-1]}{color[0]}",
-                          end=f" {chr(12288)}")
-            else:
-                if j == 0:
-                    # left number column
-                    print(
-                        f"{color[1]}{self.ranks[-i-1]}{color[0]}", end=" ")
-                else:
-                    # squares
-                    # drawn matrix is 1 higher
-                    # and wider than self.matrix
-                    if (j + self.height - i) % 2 == 1:
-                        squarecolor = color[1]
-                    else:
-                        squarecolor = color[2]
-                    print(f"{squarecolor}[{color[0]}", end="")
-                    piece = self.matrix[j - 1][self.height - i - 1]
-                    printPiece(piece)
-                    print(f"{squarecolor}]{color[0]}", end="")
-
-        for i in range(0, self.height + 1):
-            for j in range(0, self.width + 1):
-                drawInLoops(i, j)
-            print("")
+    def printMatrix(self):
+        print("matrix: ")
+        for line in self.matrix:
+            print(line)
 
 
 if __name__ == '__main__':
