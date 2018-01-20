@@ -46,7 +46,9 @@ class Chessboard():
         for name, obj in self.piecelist.copy().items():
             if name == string or obj.position == string.upper():
                 if newposition in obj.move(self):
+                    self.deletePiece(newposition)
                     obj.position = newposition
+                    self.updateMatrix()
                 else:
                     print(f"\033[91m{chr(9888)} {obj.name} on ", end="")
                     print(f"{obj.position} can't go to {newposition}!\033[0m")
@@ -81,9 +83,7 @@ class Chessboard():
 
     def initTest(self):
         pos1, pos2, pos3 = sample(self.listOfSquares, 3)
-        col1, col2, col3 = choice(["w", "b"]), \
-            choice(["w", "b"]), choice(["w", "b"])
-        print(pos1, pos2, pos3)
+        col1 = choice(["w", "b"])
         self.piecelist.update({name: pieces.Pawn(color, position)
                                for name, color, position in [
                                ["test1", col1, f"{pos1}"]]})
