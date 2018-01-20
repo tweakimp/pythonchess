@@ -80,28 +80,19 @@ class Chessboard():
         self.updateMatrix()
 
     def initTest(self):
-        # a = choice(self.files)
-        # b = choice(self.ranks)
-        # c = a
-        # d = b
-        # while a == c and b == d:
-        #     c = choice(self.files)
-        #     d = choice(self.ranks)
-        # randomPos1 = str(a) + str(b)
-        # randomPos2 = str(c) + str(d)
         pos1, pos2, pos3 = sample(self.listOfSquares, 3)
         col1, col2, col3 = choice(["w", "b"]), \
             choice(["w", "b"]), choice(["w", "b"])
         print(pos1, pos2, pos3)
-        self.piecelist.update({name: pieces.Queen(color, position)
+        self.piecelist.update({name: pieces.Pawn(color, position)
                                for name, color, position in [
                                ["test1", col1, f"{pos1}"]]})
         self.piecelist.update({name: pieces.Pawn(color, position)
                                for name, color, position in [
-                               ["test2", col2, f"{pos2}"]]})
+                               ["test2", "b", f"{pos2}"]]})
         self.piecelist.update({name: pieces.Pawn(color, position)
                                for name, color, position in [
-                               ["test3", col3, f"{pos3}"]]})
+                               ["test3", "w", f"{pos3}"]]})
         # update matrix
         self.updateMatrix()
 

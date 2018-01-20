@@ -16,17 +16,31 @@ class Pawn(Piece):
         super().__init__(color, position)
 
     def move(self, board):
+        def freePath(target):
+            if board.checkSquare(target) is None:
+                return True
+            elif board.checkSquare(target) == self.color:
+                return False
+            else:
+                return "capture"
+
+        def capture(target):
+            print(f"Pawn can capture at {target}.")
+
+        def blocked(target):
+            print(f"Pawn blocked at {target}.")
         # calculate all rook moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
         boardrank = board.ranks.index(int(self.position[1:]))
         f, r = int(boardfile), int(boardrank)
         moves = []
+        # move without capture
         if(self.color == "w"):
-            directions = ((-1, 1), (0, 1), (1, 1))
+            directions = ((0, 1),)
             if(boardrank == 1):
                 directions = directions + ((0, 2),)
         else:
-            directions = ((-1, -1), (0, -1), (1, -1))
+            directions = ((0, -1),)
             if(boardrank == 6):
                 directions = directions + ((0, -2),)
         for direction in directions:
@@ -34,7 +48,28 @@ class Pawn(Piece):
             newr = r + direction[1]
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
-                    moves.append(f"{board.files[newf]}{board.ranks[newr]}")
+                    square = f"{board.files[newf]}{board.ranks[newr]}"
+                    check = freePath(square)
+                    if check is True:
+                        moves.append(square)
+                    else:
+                        blocked(square)
+                        break
+        # move with capture
+        if(self.color == "w"):
+            directions = ((-1, 1), (1, 1))
+        else:
+            directions = ((-1, -1), (1, -1))
+        for direction in directions:
+            newf = f + direction[0]
+            newr = r + direction[1]
+            if newf in range(0, board.width):
+                if newr in range(0, board.height):
+                    square = f"{board.files[newf]}{board.ranks[newr]}"
+                    check = freePath(square)
+                    if check is "capture":
+                        capture(square)
+                        moves.append(square)
         return moves
 
 
@@ -45,6 +80,19 @@ class Knight(Piece):
         super().__init__(color,  position)
 
     def move(self, board):
+        def freePath(target):
+            if board.checkSquare(target) is None:
+                return True
+            elif board.checkSquare(target) == self.color:
+                return False
+            else:
+                return "capture"
+
+        def capture(target):
+            print(f"Knight can capture at {target}.")
+
+        def blocked(target):
+            print(f"Knight blocked at {target}.")
         # calculate all knight moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
         boardrank = board.ranks.index(int(self.position[1:]))
@@ -57,7 +105,15 @@ class Knight(Piece):
             newr = r + direction[1]
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
-                    moves.append(f"{board.files[newf]}{board.ranks[newr]}")
+                    square = f"{board.files[newf]}{board.ranks[newr]}"
+                    check = freePath(square)
+                    if check is True:
+                        moves.append(square)
+                    elif check is False:
+                        blocked(square)
+                    elif check == "capture":
+                        moves.append(square)
+                        capture(square)
         return moves
 
 
@@ -373,6 +429,19 @@ class King(Piece):
         super().__init__(color, position)
 
     def move(self, board):
+        def freePath(target):
+            if board.checkSquare(target) is None:
+                return True
+            elif board.checkSquare(target) == self.color:
+                return False
+            else:
+                return "capture"
+
+        def capture(target):
+            print(f"King can capture at {target}.")
+
+        def blocked(target):
+            print(f"King blocked at {target}.")
         # calculate all king moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
         boardrank = board.ranks.index(int(self.position[1:]))
@@ -385,5 +454,13 @@ class King(Piece):
             newr = r + direction[1]
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
-                    moves.append(f"{board.files[newf]}{board.ranks[newr]}")
+                    square = f"{board.files[newf]}{board.ranks[newr]}"
+                    check = freePath(square)
+                    if check is True:
+                        moves.append(square)
+                    elif check is False:
+                        blocked(square)
+                    elif check == "capture":
+                        moves.append(square)
+                        capture(square)
         return moves
