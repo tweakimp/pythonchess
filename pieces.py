@@ -97,14 +97,13 @@ class Knight(Piece):
     def move(self, board):
         # calculate all knight moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
-        boardrank = board.ranks.index(int(self.position[1:]))
-        f, r = int(boardfile), int(boardrank)
+        boardrank = int(board.ranks.index(int(self.position[1:])))
         directions = ((-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2),
                       (2, -1), (2, 1))
         moves = []
         for direction in directions:
-            newf = f + direction[0]
-            newr = r + direction[1]
+            newf = boardfile + direction[0]
+            newr = boardrank + direction[1]
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
                     square = f"{board.files[newf]}{board.ranks[newr]}"
@@ -121,8 +120,8 @@ class Bishop(Piece):
     def move(self, board):
         # calculate all bishop moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
-        boardrank = board.ranks.index(int(self.position[1:]))
-        f, r = int(boardfile), int(boardrank)
+        boardrank = int(board.ranks.index(int(self.position[1:])))
+        f, r = boardfile, boardrank
         moves = []
         # down and left
         if f != 0 and r != 0:
@@ -167,8 +166,8 @@ class Rook(Piece):
     def move(self, board):
         # calculate all rook moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
-        boardrank = board.ranks.index(int(self.position[1:]))
-        f, r = int(boardfile), int(boardrank)
+        boardrank = int(board.ranks.index(int(self.position[1:])))
+        f, r = boardfile, boardrank
         moves = []
         # left
         if f != 0:
@@ -213,8 +212,8 @@ class Queen(Piece):
     def move(self, board):
         # calculate all queen moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
-        boardrank = board.ranks.index(int(self.position[1:]))
-        f, r = int(boardfile), int(boardrank)
+        boardrank = int(board.ranks.index(int(self.position[1:])))
+        f, r = boardfile, boardrank
         moves = []
         # down and left
         if f != 0 and r != 0:
@@ -291,8 +290,8 @@ class King(Piece):
     def move(self, board):
         # calculate all king moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
-        boardrank = board.ranks.index(int(self.position[1:]))
-        f, r = int(boardfile), int(boardrank)
+        boardrank = int(board.ranks.index(int(self.position[1:])))
+        f, r = boardfile, boardrank
         directions = ((-1, -1), (-1, 0), (-1, 1), (0, -1),
                       (0, 1), (1, -1), (1, 0), (1, 1))
         moves = []
