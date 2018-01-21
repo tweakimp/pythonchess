@@ -108,8 +108,6 @@ class Chessboard():
                 print(f"{color[3]}{codedict[x[1]]}{color[0]}", end="")
             elif x[0] == "b":
                 print(f"{color[0]}{codedict[x[1]]}{color[0]}", end="")
-            elif x[0] == "x":
-                print(f"{color[3]}ᆞ{color[0]}", end="")  # chr(4510) [ᆞ]
             else:
                 print("ᅟ", end="")  # chr(4447) [ᅟ]
 

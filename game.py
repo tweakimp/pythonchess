@@ -10,7 +10,7 @@ import pieces
 
 
 class Game():
-    def __init__(self, name):
+    def __init__(self):
         board = chessboard.Chessboard(8, 8)
         board.initTest()
         board.pieceShowMoves("test1")
@@ -21,4 +21,4 @@ if __name__ == '__main__':
     importlib.reload(chessboard)
     importlib.reload(pieces)
     importlib.reload(lists)
-    game = Game("test")
+    game = Game()
