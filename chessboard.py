@@ -1,4 +1,5 @@
 import importlib
+import time
 from random import choice, sample
 from string import ascii_uppercase
 
@@ -56,15 +57,38 @@ class Chessboard():
                     print(f"{obj.position} can't go to {newposition}!\033[0m")
 
     def deletePiece(self, string):
-        for k, v in self.piecelist.copy().items():
-            if k == string or v.position == string.upper():
-                del self.piecelist[k]
+        for key, obj in self.piecelist.copy().items():
+            if key == string or obj.position == string.upper():
+                del self.piecelist[key]
 
     def pieceShowMoves(self, string):
-        for name, obj in self.piecelist.copy().items():
-            if name == string or obj.position == string.upper():
+        for key, obj in self.piecelist.copy().items():
+            if key == string or obj.position == string.upper():
                 for move in obj.move(self):
                     self.pieceMoves.append(move)
+
+    def inCheck(self, color):
+        othercolor = "w" if color == "b" else "b"
+        if color == "w":
+            piece = self.getPieceObject("White King")
+            position = piece.position
+        else:
+            piece = self.getPieceObject("Black King")
+            position = piece.position
+        for key, obj in self.piecelist.copy().items():
+            if obj.color == othercolor:
+                if position in obj.move(self):
+                    print(f"{obj.name} checks {piece.name}")
+                    return True
+                    break
+        return False
+
+    def getPieceObject(self, string):
+        for key in self.piecelist:
+            obj = self.piecelist[key]
+            if key == string or obj.name == string or obj.position == string:
+                piece = obj
+        return piece
 
     def initiatePieces(self):
         # initiate pieces and update piecelist
@@ -85,23 +109,22 @@ class Chessboard():
 
     def initTest(self):
         pos1, pos2, pos3 = sample(self.listOfSquares, 3)
-        col1 = choice(["w", "b"])
+        # col1 = choice(["w", "b"])
+        self.piecelist.update({name: pieces.King(color, position)
+                               for name, color, position in [
+                               ["test1", "w", f"{pos1}"]]})
         self.piecelist.update({name: pieces.Queen(color, position)
                                for name, color, position in [
-                               ["test1", col1, f"{pos1}"]]})
-        self.piecelist.update({name: pieces.Pawn(color, position)
-                               for name, color, position in [
                                ["test2", "b", f"{pos2}"]]})
-        self.piecelist.update({name: pieces.Pawn(color, position)
+        self.piecelist.update({name: pieces.Knight(color, position)
                                for name, color, position in [
-                               ["test3", "w", f"{pos3}"]]})
+                               ["test3", "b", f"{pos3}"]]})
         # update matrix
         self.updateMatrix()
 
     def drawBoard(self):
-
         color = ["\033[0m", "\033[91m", "\033[31m", "\033[97m", "\033[92m"]
-        #         no color   lightred      red         white       green
+        #         no color   lightred      red         white       gree
 
         def printPiece(x):
             codedict = {"K": "♔", "Q": "♕", "R": "♜",
@@ -117,11 +140,11 @@ class Chessboard():
             if i == self.height:
                 if j == 0:
                     # bottom left corner
-                    print("", end=f"{chr(12288)}{chr(12288)}")
+                    print("", end=f"{chr(4447)}{chr(4447)}")
                 else:
                     # bottom letter row
                     print(f"{color[1]}{self.files[j-1]}{color[0]}",
-                          end=f" {chr(12288)}")
+                          end=f" {chr(4447)}")
             else:
                 if j == 0:
                     # left number column
@@ -155,7 +178,6 @@ class Chessboard():
         print("height: ", self.height)
         print("files: ", self.files)
         print("ranks: ", self.ranks)
-        print("piecelistRAW: ", self.piecelist)
         self.printPiecelist()
         self.printMatrix()
         self.drawBoard()
@@ -166,38 +188,24 @@ class Chessboard():
             print("(empty)")
         else:
             printthis = []
+            columns = 3
+            padding = 2
             for key in self.piecelist:
-                if self.piecelist[key].short[0] == "w":
-                    name = "White "
-                elif self.piecelist[key].short[0] == "b":
-                    name = "Black "
-                if self.piecelist[key].short[1] == "P":
-                    name += "Pawn"
-                elif self.piecelist[key].short[1] == "N":
-                    name += "Knight"
-                elif self.piecelist[key].short[1] == "B":
-                    name += "Bishop"
-                elif self.piecelist[key].short[1] == "R":
-                    name += "Rook"
-                elif self.piecelist[key].short[1] == "Q":
-                    name += "Queen"
-                elif self.piecelist[key].short[1] == "K":
-                    name += "King"
-                printthis.append(
-                    self.piecelist[key].position.upper() + " " + name)
+                printthis.append(self.piecelist[key].position + " " +
+                                 self.piecelist[key].name + " " + key)
             # make it rectangualar by filling empty list entries
-            missingentries = (3 - len(printthis) % 3) % 3
+            missingentries = columns - len(printthis) % columns
             for i in range(missingentries):
                 printthis.append("")
             # make entries equally long
-            columnwidth = max(len(row) for row in printthis) + 2
+            columnwidth = max(len(row) for row in printthis) + padding
             for i in range(len(printthis)):
                 difference = columnwidth - len(printthis[i])
                 for j in range(difference):
                     printthis[i] += " "
-            columnlength = len(printthis) // 3
+            columnlength = len(printthis) // columns
             for i in range(columnlength):
-                for j in range(3):
+                for j in range(columns):
                     print(printthis[i + (j * columnlength)], end="")
                 print("")
 
@@ -208,11 +216,10 @@ class Chessboard():
 
 
 if __name__ == '__main__':
+    start_time = time.time()
     importlib.reload(pieces)
     board = Chessboard(8, 8)
     board.initiatePieces()
-    board.printInfo()
-    board.movePiece("c1", "e4")
-    board.updateMatrix()
-    board.printInfo()
-    print(board.piecelist["wBbishop"].move(board))
+    # board.printInfo()
+    board.drawBoard()
+    print(f"{round(time.time() - start_time,5)} seconds")

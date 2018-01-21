@@ -13,8 +13,8 @@ class Game():
     def __init__(self):
         board = chessboard.Chessboard(8, 8)
         board.initTest()
-        board.pieceShowMoves("test1")
         board.drawBoard()
+        print(board.inCheck("w"))
 
 
 if __name__ == '__main__':

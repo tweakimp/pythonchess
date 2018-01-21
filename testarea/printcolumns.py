@@ -10,19 +10,18 @@ testlist = ['A2 White Pawn', 'B2 White Pawn', 'C2 White Pawn', 'D2 White Pawn',
             'E8 Black King']
 
 
-def printColumns(xlist, columns, padding, seperator):
+def printColumns(xlist, columns, padding, separator):
 
     # make it rectangualar by filling empty list entries
     missingentries = columns - len(xlist) % columns
     for i in range(missingentries):
         xlist.append("")
-
     # make entries equally long
     columnwidth = max(len(row) for row in xlist) + padding
     for i in range(len(xlist)):
         difference = columnwidth - len(xlist[i])
         for j in range(difference):
-            xlist[i] += seperator
+            xlist[i] += separator
     columnlength = len(xlist) // columns
     for i in range(columnlength):
         for j in range(columns):
@@ -30,5 +29,4 @@ def printColumns(xlist, columns, padding, seperator):
         print("")
 
 
-printColumns(testlist, 4, 10, " ")
-print("                   ")
+printColumns(testlist, 3, 2, " ")
