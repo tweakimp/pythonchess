@@ -46,7 +46,9 @@ class Chessboard():
         for name, obj in self.piecelist.copy().items():
             if name == string or obj.position == string.upper():
                 if newposition in obj.move(self):
+                    # delete old piece at that position
                     self.deletePiece(newposition)
+                    # change position of moving piece
                     obj.position = newposition
                     self.updateMatrix()
                 else:
@@ -84,7 +86,7 @@ class Chessboard():
     def initTest(self):
         pos1, pos2, pos3 = sample(self.listOfSquares, 3)
         col1 = choice(["w", "b"])
-        self.piecelist.update({name: pieces.Pawn(color, position)
+        self.piecelist.update({name: pieces.Queen(color, position)
                                for name, color, position in [
                                ["test1", col1, f"{pos1}"]]})
         self.piecelist.update({name: pieces.Pawn(color, position)

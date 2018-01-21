@@ -8,7 +8,8 @@ class Piece():
         self.position = position.upper()
         self.unmoved = True
         self.piece = self.__class__.__name__
-        self.name = "White " + self.piece if color == "w" else "Black " + self.piece
+        self.name = "White " + self.piece if color == "w" else \
+                    "Black " + self.piece
 
     def freePath(self, board, target):
         if board.checkSquare(target) is None:
@@ -25,7 +26,7 @@ class Piece():
             validmoves.append(target)
         elif board.checkSquare(target) == self.color:
             if notifications is True:
-                print(f"{self.name} pathblocked at {target}.")
+                print(f"{self.name} path blocked at {target}.")
             pathblocked = True
         else:
             validmoves.append(target)
@@ -82,7 +83,7 @@ class Pawn(Piece):
                 if newr in range(0, board.height):
                     square = f"{board.files[newf]}{board.ranks[newr]}"
                     check = board.checkSquare(square)
-                    if check != None and check != self.color:
+                    if check is not None and check != self.color:
                         print(f"{self.name} can capture at {square}.")
                         moves.append(square)
         return moves
