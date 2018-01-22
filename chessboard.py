@@ -78,7 +78,7 @@ class Chessboard():
         for key, obj in self.piecelist.copy().items():
             if obj.color == othercolor:
                 if position in obj.move(self):
-                    print(f"{obj.name} checks {piece.name}")
+                    print(f"{obj.name} checks {piece.name}.")
                     return True
                     break
         return False
@@ -192,17 +192,21 @@ class Chessboard():
             padding = 2
             for key in self.piecelist:
                 printthis.append(self.piecelist[key].position + " " +
-                                 self.piecelist[key].name + " " + key)
+                                 self.piecelist[key].name)
             # make it rectangualar by filling empty list entries
             missingentries = columns - len(printthis) % columns
             for i in range(missingentries):
                 printthis.append("")
-            # make entries equally long
-            columnwidth = max(len(row) for row in printthis) + padding
+            # get widths for each column
+            columnwidths = [0 for _ in range(columns)]
+            columnlength = len(printthis) // columns
             for i in range(len(printthis)):
-                difference = columnwidth - len(printthis[i])
-                for j in range(difference):
-                    printthis[i] += " "
+                currentwidth = len(printthis[i]) + padding
+                if columnwidths[i // columnlength] < currentwidth:
+                    columnwidths[i // columnlength] = currentwidth
+            for i in range(len(printthis)):
+                totalwidth = columnwidths[i // columnlength]
+                printthis[i] = f"{printthis[i]: <{totalwidth}}"
             columnlength = len(printthis) // columns
             for i in range(columnlength):
                 for j in range(columns):
