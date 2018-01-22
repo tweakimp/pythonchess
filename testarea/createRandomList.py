@@ -13,4 +13,4 @@ def createRandomList(lowerBound, upperBound, length):
     return output
 
 
-print(createRandomList)
+print(createRandomList(2,8,40))

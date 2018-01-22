@@ -33,7 +33,7 @@ def createRandomList(lowerBound, upperBound, length):
 
 
 numberlist = 4
-testlist = createRandomList(1, 8, randint(25, 35))
+testlist = createRandomList(2, 8, randint(25, 35))
 
 
 def alphabetical(listToPrint):

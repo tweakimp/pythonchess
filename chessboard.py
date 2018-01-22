@@ -62,33 +62,38 @@ class Chessboard():
                 del self.piecelist[key]
 
     def pieceShowMoves(self, string):
-        for key, obj in self.piecelist.copy().items():
+        for key, obj in self.piecelist.items():
             if key == string or obj.position == string.upper():
                 for move in obj.move(self):
                     self.pieceMoves.append(move)
 
+    def getPieceObject(self, string):
+        for key, obj in self.piecelist.items():
+            if key == string or obj.name == string or obj.position == string:
+                piece = obj
+        return piece
+
     def inCheck(self, color):
         othercolor = "w" if color == "b" else "b"
         if color == "w":
-            piece = self.getPieceObject("White King")
-            position = piece.position
+            king = self.getPieceObject("White King")
         else:
-            piece = self.getPieceObject("Black King")
-            position = piece.position
-        for key, obj in self.piecelist.copy().items():
+            king = self.getPieceObject("Black King")
+        for obj in self.piecelist.values():
             if obj.color == othercolor:
-                if position in obj.move(self):
-                    print(f"{obj.name} checks {piece.name}.")
+                if king.position in obj.move(self):
+                    # print(f"{obj.name} checks {piece.name}.")
                     return True
                     break
         return False
 
-    def getPieceObject(self, string):
-        for key in self.piecelist:
-            obj = self.piecelist[key]
-            if key == string or obj.name == string or obj.position == string:
-                piece = obj
-        return piece
+    def createTestBoard(self, boardname, position, target):
+        # create new Chessboard instance
+        # copy piecelist from current instance
+        # get obj at position
+        # move to target
+        # return board instance
+        pass
 
     def initiatePieces(self):
         # initiate pieces and update piecelist
@@ -154,8 +159,7 @@ class Chessboard():
                         f"{color[1]}{self.ranks[-i-1]}{color[0]}", end=" ")
                 else:
                     # squares
-                    # drawn matrix is 1 higher
-                    # and wider than self.matrix
+                    # drawn matrix is 1 higher and wider than self.matrix
                     current = str(self.files[j - 1]) + \
                         str(self.ranks[self.height - i - 1])
                     if current in self.pieceMoves:
@@ -226,6 +230,6 @@ if __name__ == '__main__':
     importlib.reload(pieces)
     board = Chessboard(8, 8)
     board.initiatePieces()
-    # board.printInfo()
-    board.drawBoard()
+    board.printInfo()
+    # board.drawBoard()
     print(f"{round(time.time() - start_time,5)} seconds")
