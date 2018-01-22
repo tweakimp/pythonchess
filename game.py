@@ -15,7 +15,6 @@ class Game():
         board.initTest()
         board.drawBoard()
         print(board.inCheck("w"))
-        board.printPiecelist()
 
 
 if __name__ == '__main__':

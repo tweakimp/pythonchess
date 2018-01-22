@@ -127,6 +127,8 @@ class Chessboard():
         #         no color   lightred      red         white       gree
 
         def printPiece(x):
+            # codedict = {"K": "K", "Q": "Q", "R": "R",
+            #             "B": "B", "N": "N", "P": "P"}
             codedict = {"K": "♔", "Q": "♕", "R": "♜",
                         "B": "♝", "N": "♞", "P": "♟"}
             if x[0] == "w":
@@ -134,17 +136,17 @@ class Chessboard():
             elif x[0] == "b":
                 print(f"{color[0]}{codedict[x[1]]}{color[0]}", end="")
             else:
-                print("ᅟ", end="")  # chr(4447) [ᅟ]
+                print(f"{chr(4447)}", end="")  # chr(4447) [ᅟ]
 
         def drawInLoops(i, j):
             if i == self.height:
                 if j == 0:
                     # bottom left corner
-                    print("", end=f"{chr(4447)}{chr(4447)}")
+                    print("", end=f"{chr(4447)*2}")  # 2*chr(4447) [ᅟ]
                 else:
                     # bottom letter row
                     print(f"{color[1]}{self.files[j-1]}{color[0]}",
-                          end=f" {chr(4447)}")
+                          end=f" {chr(4447)}")  # space + # chr(4447) [ᅟ]
             else:
                 if j == 0:
                     # left number column
