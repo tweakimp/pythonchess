@@ -1,28 +1,22 @@
-testlist = ['A2 White Pawn', 'B2 White Pawn', 'C2 White Pawn', 'D2 White Pawn',
-            'E2 White Pawn', 'F2 White Pawn', 'G2 White Pawn', 'H2 White Pawn',
-            'A7 Black Pawn', 'B7 Black Pawn', 'C7 Black Pawn', 'D7 Black Pawn',
-            'E7 Black Pawn', 'F7 Black Pawn', 'G7 Black Pawn', 'H7 Black Pawn',
-            'B1 White Knight', 'G1 White Knight', 'B8 Black Knight',
-            'G8 Black Knight', 'C1 White Bishop', 'F1 White Bishop',
-            'C8 Black Bishop', 'F8 Black Bishop', 'A1 White Rook',
-            'H1 White Rook', 'A8 Black Rook', 'H8 Black Rook',
-            'D1 White Queen', 'D8 Black Queen', 'E1 White King',
-            'E8 Black King']
+from random import choice, randint
+from string import ascii_letters
 
 
-def printColumns(xlist, columns, padding, seperator):
+def printColumns(alist, columns, padding, separator):
 
     # make it rectangualar by filling empty list entries
-    missingentries = columns - len(xlist) % columns
+    missingentries = columns - len(alist) % columns
+    xlist = alist[:]  # copy list!
     for i in range(missingentries):
-        xlist.append("")
-
-    # make entries equally long
-    columnwidth = max(len(row) for row in xlist) + padding
+        xlist.append(":")
+    # get widths for each column
+    columnwidths = [0 for _ in range(columns)]
+    columnlength = len(xlist) // columns
     for i in range(len(xlist)):
-        difference = columnwidth - len(xlist[i])
-        for j in range(difference):
-            xlist[i] += seperator
+        if columnwidths[i // columnlength] < len(xlist[i]) + padding:
+            columnwidths[i // columnlength] = len(xlist[i]) + padding
+    for i in range(len(xlist)):
+        xlist[i] = f"{xlist[i]: <{columnwidths[i // columnlength]}}"
     columnlength = len(xlist) // columns
     for i in range(columnlength):
         for j in range(columns):
@@ -30,5 +24,34 @@ def printColumns(xlist, columns, padding, seperator):
         print("")
 
 
-printColumns(testlist, 4, 10, " ")
-print("                   ")
+def createRandomList(lowerBound, upperBound, length):
+    output = []
+    for i in range(length):
+        output.append("".join((choice(ascii_letters))
+                              for x in range(randint(lowerBound, upperBound))))
+    return output
+
+
+numberlist = 4
+testlist = createRandomList(1, 8, randint(25, 35))
+
+
+def alphabetical(listToPrint):
+    return sorted(listToPrint, key=str.lower)
+
+
+def lengthwise(listToPrint):
+    return sorted(listToPrint, key=len)
+
+
+def testThis(listToPrint, columns, padding):
+    print("==============================================================")
+    printColumns(listToPrint, columns, padding, " ")
+    print("==============================================================")
+    printColumns(alphabetical(listToPrint), columns, padding, " ")
+    print("==============================================================")
+    printColumns(lengthwise(listToPrint), columns, padding, " ")
+
+
+if __name__ == '__main__':
+    testThis(testlist, randint(2, 4), 3)

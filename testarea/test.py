@@ -1,15 +1,15 @@
-from string import ascii_uppercase
+from random import randint
 
 
-class testclass():
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-        self.files = ascii_uppercase[:self.width]
-        self.ranks = range(1, self.height + 1)
+def missingcalc(entries, columns):
+    missingentries = columns - entries % columns
+    columnlength = (entries + missingentries) // columns
+    if columnlength * columns == entries + missingentries:
+        print("PASS: ", entries, columnlength, columns)
+    else:
+        print("FAIL: ", entries, columnlength, columns)
 
-        self.listOfSquares = [x + str(y) for x in self.files for y in self.ranks]
 
-
-a = testclass(8, 8)
-print(a.listOfSquares)
+for _ in range(40):
+    missingcalc(randint(10, 100), randint(2, 11))
+missingcalc(4, 40)

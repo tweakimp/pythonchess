@@ -10,18 +10,9 @@ import pieces
 class Game():
     def __init__(self):
         board = chessboard.Chessboard(8, 8)
-        # board.initiatePieces()
         board.initTest()
-        board.pieceShowMoves("test1")
         board.drawBoard()
-        # board.printInfo()
-        # print("wBbishop: ", board.piecelist["wBbishop"].position)
-        # print(board.piecelist["wBbishop"].move(board))
-        # print("bBbishop: ", board.piecelist["bBbishop"].position)
-        # print(board.piecelist["bBbishop"].move(board))
-
-    def movePiece(self, board, name, newposition):
-        pass
+        print(board.inCheck("w"))
 
 
 if __name__ == '__main__':
