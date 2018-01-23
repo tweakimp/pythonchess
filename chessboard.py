@@ -1,6 +1,7 @@
+from copy import deepcopy
 import importlib
 import time
-from random import choice, sample
+from random import sample
 from string import ascii_uppercase
 
 import lists
@@ -52,6 +53,8 @@ class Chessboard():
                     # change position of moving piece
                     obj.position = newposition
                     self.updateMatrix()
+                    # self.printMatrix()
+                    # self.inCheck(self.othercolor(obj.color))
                 else:
                     print(f"\033[91m{chr(9888)} {obj.name} on ", end="")
                     print(f"{obj.position} can't go to {newposition}!\033[0m")
@@ -73,27 +76,48 @@ class Chessboard():
                 piece = obj
         return piece
 
+    def othercolor(self, color):
+        return "w" if color == "b" else "b"
+
     def inCheck(self, color):
-        othercolor = "w" if color == "b" else "b"
         if color == "w":
             king = self.getPieceObject("White King")
         else:
             king = self.getPieceObject("Black King")
         for obj in self.piecelist.values():
-            if obj.color == othercolor:
+            if obj.color == self.othercolor(color):
                 if king.position in obj.move(self):
-                    # print(f"{obj.name} checks {piece.name}.")
+                    # print("--CHECK--")
+                    # print(f"{obj.name} checks {king.name}.")
                     return True
-                    break
+        # print("-NO CHECK-")
         return False
 
-    def createTestBoard(self, boardname, position, target):
-        # create new Chessboard instance
-        # copy piecelist from current instance
-        # get obj at position
-        # move to target
-        # return board instance
-        pass
+    def getAllMoves(self, color):
+        allMoves = []
+        for obj in self.piecelist.values():
+            if obj.color == color and obj.move(self) != []:
+                allMoves.append([obj.position, obj.move(self)])
+        return allMoves
+
+    def inCheckmate(self, color):
+        if self.inCheck(color) is False:
+            return False
+        allMoves = self.getAllMoves(color)
+        for i in allMoves:
+            for j in i[1]:
+                testboard = deepcopy(self.createTestBoard(i[0], j))
+                if testboard.inCheck(color) is False:
+                    return False
+                del testboard
+        return True
+
+    def createTestBoard(self, position, target):
+        v = Chessboard(self.width, self.height)
+        v.piecelist = deepcopy(self.piecelist)
+        v.movePiece(position, target)
+        v.updateMatrix()
+        return v
 
     def initiatePieces(self):
         # initiate pieces and update piecelist
@@ -113,17 +137,23 @@ class Chessboard():
         self.updateMatrix()
 
     def initTest(self):
-        pos1, pos2, pos3 = sample(self.listOfSquares, 3)
+        pos1, pos2, pos3, pos4, pos5 = sample(self.listOfSquares, 5)
         # col1 = choice(["w", "b"])
         self.piecelist.update({name: pieces.King(color, position)
                                for name, color, position in [
                                ["test1", "w", f"{pos1}"]]})
-        self.piecelist.update({name: pieces.Queen(color, position)
-                               for name, color, position in [
-                               ["test2", "b", f"{pos2}"]]})
         self.piecelist.update({name: pieces.Knight(color, position)
                                for name, color, position in [
+                               ["test2", "b", f"{pos2}"]]})
+        self.piecelist.update({name: pieces.Bishop(color, position)
+                               for name, color, position in [
                                ["test3", "b", f"{pos3}"]]})
+        self.piecelist.update({name: pieces.Rook(color, position)
+                               for name, color, position in [
+                               ["test4", "b", f"{pos4}"]]})
+        self.piecelist.update({name: pieces.King(color, position)
+                               for name, color, position in [
+                               ["test5", "b", f"{pos5}"]]})
         # update matrix
         self.updateMatrix()
 
