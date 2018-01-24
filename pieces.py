@@ -20,23 +20,23 @@ class Piece():
             return "capture"
 
     def validate(self, board, target, notifications=False):
-        validmoves = []
+        valid = []
         pathblocked = False
         if board.checkSquare(target) is None:
-            validmoves.append(target)
+            valid.append(target)
         elif board.checkSquare(target) == self.color:
             if notifications is True:
                 print(f"{self.name} path blocked at {target}.")
             pathblocked = True
         else:
-            validmoves.append(target)
+            valid.append(target)
             if notifications is True:
                 print(f"{self.name} can capture at {target}.")
             pathblocked = True
         if self.__class__.__name__ in ["Bishop", "Rook", "Queen"]:
-            return validmoves, pathblocked
+            return valid, pathblocked
         else:
-            return validmoves
+            return valid
 
 
 class Pawn(Piece):
@@ -107,8 +107,8 @@ class Knight(Piece):
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
                     square = f"{board.files[newf]}{board.ranks[newr]}"
-                    validmoves = self.validate(board, square, False)
-                    moves += validmoves
+                    valid = self.validate(board, square, False)
+                    moves += valid
         return moves
 
 
@@ -127,32 +127,32 @@ class Bishop(Piece):
         if f != 0 and r != 0:
             for i in range(1,  1 + min(f, r)):
                 square = f"{board.files[f - i]}{board.ranks[r - i]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # up and left
         if f != 0 and r != board.height - 1:
             for j in range(1, 1 + min(f, board.height - 1 - r)):
                 square = f"{board.files[f - j]}{board.ranks[r + j]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # up and right
         if f != board.width - 1 and r != board.height - 1:
             for k in range(1, min(board.width - f, board.height - r)):
                 square = f"{board.files[f + k]}{board.ranks[r + k]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # down and right
         if f != board.width - 1 and r != 0:
             for l in range(1, 1 + min(board.width - 1 - f, r)):
                 square = f"{board.files[f +l]}{board.ranks[r - l]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         return moves
@@ -173,32 +173,32 @@ class Rook(Piece):
         if f != 0:
             for i in range(1, f + 1):
                 square = f"{board.files[f - i]}{board.ranks[r]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # up
         if r != board.height - 1:
             for j in range(1, board.height - r):
                 square = f"{board.files[f]}{board.ranks[r+j]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # right
         if f != board.width - 1:
             for k in range(1, board.width - f):
                 square = f"{board.files[f +k]}{board.ranks[r]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # down
         if r != 0:
             for l in range(1, r + 1):
                 square = f"{board.files[f]}{board.ranks[r-l]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         return moves
@@ -219,64 +219,64 @@ class Queen(Piece):
         if f != 0 and r != 0:
             for i in range(1,  1 + min(f, r)):
                 square = f"{board.files[f -i]}{board.ranks[r-i]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # left
         if f != 0:
             for i in range(1, f + 1):
                 square = f"{board.files[f -i]}{board.ranks[r]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # up and left
         if f != 0 and r != board.height - 1:
             for j in range(1, 1 + min(f, board.height - 1 - r)):
                 square = f"{board.files[f -j]}{board.ranks[r+j]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # up
         if r != board.height - 1:
             for j in range(1, board.height - r):
                 square = f"{board.files[f]}{board.ranks[r+j]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # up and right
         if f != board.width - 1 and r != board.height - 1:
             for k in range(1, min(board.width - f, board.height - r)):
                 square = f"{board.files[f +k]}{board.ranks[r+k]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # right
         if f != board.width - 1:
             for k in range(1, board.width - f):
                 square = f"{board.files[f +k]}{board.ranks[r]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # down and right
         if f != board.width - 1 and r != 0:
             for l in range(1, 1 + min(board.width - 1 - f, r)):
                 square = f"{board.files[f +l]}{board.ranks[r-l]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         # down
         if r != 0:
             for l in range(1, r + 1):
                 square = f"{board.files[f]}{board.ranks[r-l]}"
-                validmoves, pathblocked = self.validate(board, square, False)
-                moves += validmoves
+                valid, pathblocked = self.validate(board, square, False)
+                moves += valid
                 if pathblocked is True:
                     break
         return moves
@@ -301,6 +301,6 @@ class King(Piece):
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
                     square = f"{board.files[newf]}{board.ranks[newr]}"
-                    validmoves = self.validate(board, square, False)
-                    moves += validmoves
+                    valid = self.validate(board, square, False)
+                    moves += valid
         return moves

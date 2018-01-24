@@ -1,8 +1,19 @@
 import importlib
+from datetime import datetime
 
 import chessboard
 import lists
 import pieces
+
+
+def stopwatch(f):
+    def wrap(*args, **kw):
+        start = datetime.now()
+        result = f(*args, **kw)
+        end = datetime.now()
+        print(end - start)
+        return result
+    return wrap
 
 # TODO: count number of moves
 # TODO: track captured pieces
@@ -26,10 +37,13 @@ class Game():
         board.drawBoard()
         board.inCheck("w")
 
+    @stopwatch
     def testMate(self):
         for _ in range(0, 1000):
+            # print("=== NEW TEST ===")
             board = chessboard.Chessboard(8, 8)
             board.initTest()
+            # board.drawBoard()
             if board.inCheckmate("w"):
                 print("=== NEW TEST ===")
                 print("CHECKMATE")
@@ -40,7 +54,13 @@ class Game():
             else:
                 # print("King is safe for now.")
                 pass
-        print("endoftest")
+        print("=== END OF TEST ===")
+
+    def testKingPositions(self):
+        for _ in range(0, 10):
+            board = chessboard.Chessboard(8, 8)
+            board.initTest()
+            board.drawBoard()
 
 
 if __name__ == '__main__':

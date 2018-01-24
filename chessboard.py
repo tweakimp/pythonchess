@@ -1,7 +1,7 @@
-from copy import deepcopy
 import importlib
 import time
-from random import sample
+from copy import deepcopy
+from random import choice, sample
 from string import ascii_uppercase
 
 import lists
@@ -137,23 +137,43 @@ class Chessboard():
         self.updateMatrix()
 
     def initTest(self):
-        pos1, pos2, pos3, pos4, pos5 = sample(self.listOfSquares, 5)
+
+        def squaresToRemove(firstKing):
+            boardfile = int(self.files.index(firstKing[0].upper()))
+            boardrank = int(self.ranks.index(int(firstKing[1:])))
+            f, r = boardfile, boardrank
+            directions = ((-1, -1), (-1, 0), (-1, 1), (0, -1),
+                          (0, 1), (1, -1), (1, 0), (1, 1))
+            squares = []
+            for direction in directions:
+                newf = f + direction[0]
+                newr = r + direction[1]
+                if newf in range(0, self.width):
+                    if newr in range(0, self.height):
+                        squares.append(f"{self.files[newf]}{self.ranks[newr]}")
+            return squares
+        # firstKing = choice(self.listOfSquares)
+        firstKing, pos1, pos2, pos3 = sample(self.listOfSquares, 4)
+        secondKing = choice([x for x in self.listOfSquares
+                             if x not in squaresToRemove(firstKing)
+                             and x not in [pos1, pos2, pos3]])
         # col1 = choice(["w", "b"])
+        # secondKing = sample(self.listOfSquares,1)
         self.piecelist.update({name: pieces.King(color, position)
                                for name, color, position in [
-                               ["test1", "w", f"{pos1}"]]})
-        self.piecelist.update({name: pieces.Knight(color, position)
+                               ["firstKing", "w", f"{firstKing}"]]})
+        self.piecelist.update({name: pieces.King(color, position)
                                for name, color, position in [
-                               ["test2", "b", f"{pos2}"]]})
+                               ["secondKing", "b", f"{secondKing}"]]})
         self.piecelist.update({name: pieces.Bishop(color, position)
                                for name, color, position in [
-                               ["test3", "b", f"{pos3}"]]})
+                               ["test1", "b", f"{pos1}"]]})
         self.piecelist.update({name: pieces.Rook(color, position)
                                for name, color, position in [
-                               ["test4", "b", f"{pos4}"]]})
-        self.piecelist.update({name: pieces.King(color, position)
+                               ["test2", "b", f"{pos2}"]]})
+        self.piecelist.update({name: pieces.Knight(color, position)
                                for name, color, position in [
-                               ["test5", "b", f"{pos5}"]]})
+                               ["test3", "b", f"{pos3}"]]})
         # update matrix
         self.updateMatrix()
 
