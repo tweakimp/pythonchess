@@ -7,10 +7,11 @@ from string import ascii_letters
 
 def createRandomList(lowerBound, upperBound, length):
     output = []
-    for i in range(length):
-        output.append("".join((choice(ascii_letters))
-                              for x in range(randint(lowerBound, upperBound + 1))))
+    for _ in range(length):
+        output.append("".join(
+            (choice(ascii_letters))
+            for x in range(randint(lowerBound, upperBound + 1))))
     return output
 
 
-print(createRandomList(2,8,40))
+print(createRandomList(2, 8, 40))

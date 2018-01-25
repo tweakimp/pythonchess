@@ -44,7 +44,7 @@ class Pawn(Piece):
         self.short = color + "P"
         super().__init__(color, position)
 
-    def move(self, board):
+    def move(self, board, notifications=False):
 
         # calculate all rook moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
@@ -69,7 +69,8 @@ class Pawn(Piece):
                     if board.checkSquare(square) is None:
                         moves.append(square)
                     else:
-                        print(f"{self.name} path blocked at {square}.")
+                        if notifications is True:
+                            print(f"{self.name} path blocked at {square}.")
                         break
         # move with capture
         if(self.color == "w"):
@@ -84,7 +85,8 @@ class Pawn(Piece):
                     square = f"{board.files[newf]}{board.ranks[newr]}"
                     check = board.checkSquare(square)
                     if check is not None and check != self.color:
-                        print(f"{self.name} can capture at {square}.")
+                        if notifications is True:
+                            print(f"{self.name} can capture at {square}.")
                         moves.append(square)
         return moves
 
