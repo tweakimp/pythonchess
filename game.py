@@ -84,15 +84,13 @@ class Game():
 
     def playFromTurnlist(self, logfile):
         text, turnlist = self.importTurnlist(logfile)
-        print(text)
         board = chessboard.Chessboard(8, 8)
         board.initPieces()
         board.drawBoard()
         for move in turnlist:
-            board.movePiece(move[0],move[1])
+            print(*move)
+            board.movePiece(move[0], move[1])
             board.drawBoard()
-
-
 
 
 if __name__ == '__main__':

@@ -9,6 +9,11 @@
 # hintergrundfarbe 100-107
 import itertools
 
+#
 for i in itertools.chain(range(30, 38), range(40, 48)):
     print(f"\x1b[{i}mAt {i} THIS happens! \x1b[0m", end="")
     print(f"\x1b[{i+60}mAt {i+60} THIS hhappens! \x1b[0m")
+
+# for i in range(0, 400):
+#     print(f"\x1b[{i}mAt {i} THIS happens! \x1b[0m", end="")
+#     print(f"\x1b[{i+60}mAt {i+60} THIS hhappens! \x1b[0m")
