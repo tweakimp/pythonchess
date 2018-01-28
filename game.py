@@ -82,6 +82,8 @@ class Game():
         # loglist now list of [position, target] - lists moves
         return text, turnlist
 
+
+
     def playFromTurnlist(self, logfile):
         text, turnlist = self.importTurnlist(logfile)
         board = chessboard.Chessboard(8, 8)
