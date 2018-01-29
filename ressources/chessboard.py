@@ -14,7 +14,7 @@ class Chessboard():
         self.height = height
         self.files = ascii_uppercase[:self.width]
         self.ranks = range(1, self.height + 1)
-        self.piecelist = {}
+        self.piecedict = {}
         self.capturedlist = []
         self.matrix = [["  " for h in range(0, self.height)]
                        for w in range(0, self.width)]
@@ -29,9 +29,9 @@ class Chessboard():
 
     def updateMatrix(self):
         self.resetMatrix()
-        for key in self.piecelist:
-            position = self.piecelist[key].position
-            short = self.piecelist[key].short
+        for key in self.piecedict:
+            position = self.piecedict[key].position
+            short = self.piecedict[key].short
             boardfile = int(self.files.index(position[0].upper()))
             boardrank = self.ranks.index(int(position[1:]))
             self.matrix[boardfile][boardrank] = short
@@ -46,7 +46,7 @@ class Chessboard():
 
     def movePiece(self, string, newposition):
         newposition = newposition.upper()
-        for name, obj in self.piecelist.copy().items():
+        for name, obj in self.piecedict.copy().items():
             if name == string or obj.position == string.upper():
                 if newposition in obj.move(self):
                     # delete old piece at that position
@@ -61,18 +61,18 @@ class Chessboard():
                     print(f"{obj.position} can't go to {newposition}!\033[0m")
 
     def deletePiece(self, string):
-        for key, obj in self.piecelist.copy().items():
+        for key, obj in self.piecedict.deepcopy().items():
             if key == string or obj.position == string.upper():
-                del self.piecelist[key]
+                del self.piecedict[key]
 
     def pieceShowMoves(self, string):
-        for key, obj in self.piecelist.items():
+        for key, obj in self.piecedict.items():
             if key == string or obj.position == string.upper():
                 for move in obj.move(self):
                     self.pieceMoves.append(move)
 
     def getPieceObject(self, string):
-        for key, obj in self.piecelist.items():
+        for key, obj in self.piecedict.items():
             if key == string or obj.name == string or obj.position == string:
                 piece = obj
         return piece
@@ -86,7 +86,7 @@ class Chessboard():
             king = self.getPieceObject("White King")
         else:
             king = self.getPieceObject("Black King")
-        for obj in self.piecelist.values():
+        for obj in self.piecedict.values():
             if obj.color == self.othercolor(color):
                 if king.position in obj.move(self):
                     if notification is True:
@@ -99,7 +99,7 @@ class Chessboard():
 
     def getAllMoves(self, color):
         allMoves = []
-        for obj in self.piecelist.values():
+        for obj in self.piecedict.values():
             if obj.color == color and obj.move(self) != []:
                 allMoves.append([obj.position, obj.move(self)])
         return allMoves
@@ -118,34 +118,34 @@ class Chessboard():
 
     def createTestBoard(self, position, target):
         v = Chessboard(self.width, self.height)
-        v.piecelist = deepcopy(self.piecelist)
+        v.piecedict = deepcopy(self.piecedict)
         v.movePiece(position, target)
         v.updateMatrix()
         return v
 
     def initPieces(self):
-        # initiate pieces and update piecelist
-        self.piecelist.update({
+        # initiate pieces and update piecedict
+        self.piecedict.update({
             name: pieces.Pawn(color, position)
             for name, color, position in start.pawns
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.Knight(color, position)
             for name, color, position in start.knights
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.Bishop(color, position)
             for name, color, position in start.bishops
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.Rook(color, position)
             for name, color, position in start.rooks
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.Queen(color, position)
             for name, color, position in start.queens
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.King(color, position)
             for name, color, position in start.kings
         })
@@ -177,23 +177,23 @@ class Chessboard():
         ])
         # col1 = choice(["w", "b"])
         # secondKing = sample(self.listOfSquares,1)
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.King(color, position)
             for name, color, position in [["firstKing", "w", f"{firstKing}"]]
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.King(color, position)
             for name, color, position in [["secondKing", "b", f"{secondKing}"]]
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.Bishop(color, position)
             for name, color, position in [["test1", "b", f"{pos1}"]]
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.Rook(color, position)
             for name, color, position in [["test2", "b", f"{pos2}"]]
         })
-        self.piecelist.update({
+        self.piecedict.update({
             name: pieces.Knight(color, position)
             for name, color, position in [["test3", "b", f"{pos3}"]]
         })
@@ -269,16 +269,16 @@ class Chessboard():
         self.drawBoard()
 
     def printPiecelist(self):
-        print("piecelist: ")
-        if self.piecelist == {}:
+        print("piecedict: ")
+        if self.piecedict == {}:
             print("(empty)")
         else:
             printthis = []
             columns = 3
             padding = 2
-            for key in self.piecelist:
-                printthis.append(self.piecelist[key].position + " " +
-                                 self.piecelist[key].name)
+            for key in self.piecedict:
+                printthis.append(self.piecedict[key].position + " " +
+                                 self.piecedict[key].name)
             # make it rectangualar by filling empty list entries
             missingentries = columns - len(printthis) % columns
             for i in range(missingentries):

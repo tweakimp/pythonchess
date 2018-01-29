@@ -1,25 +1,22 @@
 import importlib
 import os
 import re
-from datetime import datetime
 
+from gui import gui
 from ressources import chessboard, pieces
 from ressources.standard import start
 
 
-def stopwatch(f):
-    def wrap(*args, **kw):
-        start = datetime.now()
-        result = f(*args, **kw)
-        end = datetime.now()
-        print(end - start)
-        return result
-    return wrap
-
-
 class Game():
     def __init__(self):
-        self.playFromTurnlist("game2")
+        self.playWithGui()
+        # self.testCheck()
+        # self.playFromTurnlist("game2")
+
+    def playWithGui(self):
+        board = chessboard.Chessboard(8, 8)
+        board.initTest()
+        gui.GUI(board)
 
     def testMoves(self):
         board = chessboard.Chessboard(8, 8)
@@ -90,4 +87,5 @@ if __name__ == '__main__':
     importlib.reload(chessboard)
     importlib.reload(pieces)
     importlib.reload(start)
+    importlib.reload(gui)
     game = Game()
