@@ -4,8 +4,8 @@ from copy import deepcopy
 from random import choice, sample
 from string import ascii_uppercase
 
-import lists
-import pieces
+from ressources import pieces
+from ressources.standard import start
 
 
 class Chessboard():
@@ -127,27 +127,27 @@ class Chessboard():
         # initiate pieces and update piecelist
         self.piecelist.update({
             name: pieces.Pawn(color, position)
-            for name, color, position in lists.pawns
+            for name, color, position in start.pawns
         })
         self.piecelist.update({
             name: pieces.Knight(color, position)
-            for name, color, position in lists.knights
+            for name, color, position in start.knights
         })
         self.piecelist.update({
             name: pieces.Bishop(color, position)
-            for name, color, position in lists.bishops
+            for name, color, position in start.bishops
         })
         self.piecelist.update({
             name: pieces.Rook(color, position)
-            for name, color, position in lists.rooks
+            for name, color, position in start.rooks
         })
         self.piecelist.update({
             name: pieces.Queen(color, position)
-            for name, color, position in lists.queens
+            for name, color, position in start.queens
         })
         self.piecelist.update({
             name: pieces.King(color, position)
-            for name, color, position in lists.kings
+            for name, color, position in start.kings
         })
         # update matrix
         self.updateMatrix()
@@ -309,7 +309,7 @@ if __name__ == '__main__':
     start_time = time.time()
     importlib.reload(pieces)
     board = Chessboard(8, 8)
-    board.initiatePieces()
+    board.initPieces()
     board.printInfo()
     # board.drawBoard()
     print(f"{round(time.time() - start_time,5)} seconds")
