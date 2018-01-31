@@ -103,7 +103,7 @@ class Chessboard():
                 if king.position in obj.move(self):
                     if notification is True:
                         print("--CHECK--")
-                        print(f"{obj.name} checks {king.name}.")
+                        print(f"{obj.name} checks {king.name}!")
                     return True
         if notification is True:
             print("-NO CHECK-")
