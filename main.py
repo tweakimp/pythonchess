@@ -26,7 +26,7 @@ class Game():
             print(i)
 
     def testCheck(self):
-        for _ in range(0, 10):
+        for _ in range(0, 1):
             print("=== NEW TEST ===")
             board = chessboard.Chessboard(8, 8)
             board.initTest()

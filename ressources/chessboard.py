@@ -60,8 +60,18 @@ class Chessboard():
                     print(f"\033[91m{chr(9888)} {obj.name} on ", end="")
                     print(f"{obj.position} can't go to {newposition}!\033[0m")
 
+    def FORCEmovePiece(self, string, newposition):
+        newposition = newposition.upper()
+        for name, obj in self.piecedict.copy().items():
+            if name == string or obj.position == string.upper():
+                    # delete old piece at that position
+                    self.deletePiece(newposition)
+                    # change position of moving piece
+                    obj.position = newposition
+                    self.updateMatrix()
+
     def deletePiece(self, string):
-        for key, obj in self.piecedict.deepcopy().items():
+        for key, obj in self.piecedict.copy().items():
             if key == string or obj.position == string.upper():
                 del self.piecedict[key]
 
@@ -130,7 +140,7 @@ class Chessboard():
     def createTestBoard(self, position, target):
         v = Chessboard(self.width, self.height)
         v.piecedict = deepcopy(self.piecedict)
-        v.movePiece(position, target)
+        v.FORCEmovePiece(position, target)
         v.updateMatrix()
         return v
 

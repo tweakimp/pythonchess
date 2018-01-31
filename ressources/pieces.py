@@ -33,9 +33,6 @@ class Piece():
             if notifications is True:
                 print(f"{self.name} can capture at {target}.")
             pathblocked = True
-        # check list "valid" for moves that put your king in check:
-        for move in valid:
-            pass
         if self.__class__.__name__ in ["Bishop", "Rook", "Queen"]:
             return valid, pathblocked
         else:
