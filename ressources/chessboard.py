@@ -10,6 +10,7 @@ from ressources.standard import start
 
 class Chessboard():
     def __init__(self, width, height):
+        self.original = True
         self.width = width
         self.height = height
         self.files = ascii_uppercase[:self.width]
@@ -139,10 +140,22 @@ class Chessboard():
 
     def createTestBoard(self, position, target):
         v = Chessboard(self.width, self.height)
+        v.original = False
         v.piecedict = deepcopy(self.piecedict)
         v.FORCEmovePiece(position, target)
         v.updateMatrix()
         return v
+
+    def inCheckOnNewBoard(self,color):
+        if color == "w":
+            king = self.getPieceObject("White King")
+        else:
+            king = self.getPieceObject("Black King")
+        for obj in self.piecedict.values():
+            if obj.color == self.othercolor(color):
+                if king.position in obj.move(self):
+                    return True
+        return False
 
     def initPieces(self):
         # initiate pieces and update piecedict
@@ -174,6 +187,7 @@ class Chessboard():
         self.updateMatrix()
 
     def initTest(self):
+
         def squaresToRemove(firstKing):
             boardfile = int(self.files.index(firstKing[0].upper()))
             boardrank = int(self.ranks.index(int(firstKing[1:])))

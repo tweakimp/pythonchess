@@ -33,6 +33,12 @@ class Piece():
             if notifications is True:
                 print(f"{self.name} can capture at {target}.")
             pathblocked = True
+        # remove move that would put yourself in check
+        if board.original is True:
+            for move in valid:
+                testboard = board.createTestBoard(self.position, move)
+                if testboard.inCheck(self.color, move):
+                    valid.remove(move)
         if self.__class__.__name__ in ["Bishop", "Rook", "Queen"]:
             return valid, pathblocked
         else:
