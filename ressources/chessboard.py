@@ -65,11 +65,14 @@ class Chessboard():
             if key == string or obj.position == string.upper():
                 del self.piecedict[key]
 
-    def pieceShowMoves(self, string):
+    def showPieceMoves(self, string):
+        self.pieceMoves = []
         for key, obj in self.piecedict.items():
             if key == string or obj.position == string.upper():
                 for move in obj.move(self):
                     self.pieceMoves.append(move)
+        self.updateMatrix()
+        self.drawBoard()
 
     def getPieceObject(self, string):
         for key, obj in self.piecedict.items():
@@ -77,8 +80,7 @@ class Chessboard():
                 piece = obj
         return piece
 
-    @staticmethod
-    def othercolor(color):
+    def othercolor(self, color):
         return "w" if color == "b" else "b"
 
     def inCheck(self, color, notification=False):
@@ -103,6 +105,15 @@ class Chessboard():
             if obj.color == color and obj.move(self) != []:
                 allMoves.append([obj.position, obj.move(self)])
         return allMoves
+
+    def showAllMoves(self, color):
+        self.pieceMoves = []
+        for obj in self.piecedict.values():
+            if obj.color == color and obj.move(self) != []:
+                for move in obj.move(self):
+                    self.pieceMoves.append(move)
+        self.updateMatrix()
+        self.drawBoard()
 
     def inCheckmate(self, color):
         if self.inCheck(color) is False:

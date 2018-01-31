@@ -9,8 +9,8 @@ from ressources.standard import start
 
 class Game():
     def __init__(self):
-        self.playWithGui()
-        # self.testCheck()
+        # self.playWithGui()
+        self.testCheck()
         # self.playFromTurnlist("game2")
 
     def playWithGui(self):
@@ -26,10 +26,19 @@ class Game():
             print(i)
 
     def testCheck(self):
-        board = chessboard.Chessboard(8, 8)
-        board.initTest()
-        board.drawBoard()
-        board.inCheck("w", True)
+        for _ in range(0, 10):
+            print("=== NEW TEST ===")
+            board = chessboard.Chessboard(8, 8)
+            board.initTest()
+            if board.inCheck("w"):
+                print("CHECK")
+                pass
+            else:
+                print("King is safe for now.")
+                pass
+            board.showAllMoves("w")
+            # board.drawBoard()
+        print("=== END OF TEST ===")
 
     def testMate(self):
         for _ in range(0, 10):
