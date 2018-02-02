@@ -10,13 +10,13 @@ from ressources.standard import start
 
 class Chessboard():
     def __init__(self, width, height):
-        self.original = True
         self.width = width
         self.height = height
         self.files = ascii_uppercase[:self.width]
         self.ranks = range(1, self.height + 1)
+        self.original = True
         self.piecedict = {}
-        self.capturedlist = []
+        # self.capturedlist = []
         self.matrix = [["  " for h in range(0, self.height)]
                        for w in range(0, self.width)]
         self.pieceMoves = []
@@ -54,22 +54,23 @@ class Chessboard():
                     self.deletePiece(newposition)
                     # change position of moving piece
                     obj.position = newposition
+                    # piece has actually moved
+                    if self.original:
+                        obj.unmoved = False
                     self.updateMatrix()
-                    # self.printMatrix()
-                    # self.inCheck(self.othercolor(obj.color))
                 else:
                     print(f"\033[91m{chr(9888)} {obj.name} on ", end="")
                     print(f"{obj.position} can't go to {newposition}!\033[0m")
 
-    def FORCEmovePiece(self, string, newposition):
-        newposition = newposition.upper()
-        for name, obj in self.piecedict.copy().items():
-            if name == string or obj.position == string.upper():
-                    # delete old piece at that position
-                    self.deletePiece(newposition)
-                    # change position of moving piece
-                    obj.position = newposition
-                    self.updateMatrix()
+    # def FORCEmovePiece(self, string, newposition):
+    #     newposition = newposition.upper()
+    #     for name, obj in self.piecedict.copy().items():
+    #         if name == string or obj.position == string.upper():
+    #             # delete old piece at that position
+    #             self.deletePiece(newposition)
+    #             # change position of moving piece
+    #             obj.position = newposition
+    #             self.updateMatrix()
 
     def deletePiece(self, string):
         for key, obj in self.piecedict.copy().items():
@@ -139,14 +140,14 @@ class Chessboard():
         return True
 
     def createTestBoard(self, position, target):
-        v = Chessboard(self.width, self.height)
-        v.original = False
-        v.piecedict = deepcopy(self.piecedict)
-        v.FORCEmovePiece(position, target)
-        v.updateMatrix()
-        return v
+        b = Chessboard(self.width, self.height)
+        b.original = False
+        b.piecedict = deepcopy(self.piecedict)
+        b.movePiece(position, target)  # FORCEmove needed?
+        b.updateMatrix()
+        return b
 
-    def inCheckOnNewBoard(self,color):
+    def inCheckOnNewBoard(self, color):
         if color == "w":
             king = self.getPieceObject("White King")
         else:
@@ -235,6 +236,30 @@ class Chessboard():
         # update matrix
         self.updateMatrix()
 
+    def initTest2(self):
+        self.piecedict.update({
+            name: pieces.King(color, position)
+            for name, color, position in [["wKing", "w", f"b2"]]
+        })
+        self.piecedict.update({
+            name: pieces.King(color, position)
+            for name, color, position in [["bKing", "b", f"a4"]]
+        })
+        self.piecedict.update({
+            name: pieces.Queen(color, position)
+            for name, color, position in [["test1", "b", f"e2"]]
+        })
+        self.piecedict.update({
+            name: pieces.Pawn(color, position)
+            for name, color, position in [["test2", "w", f"c2"]]
+        })
+        # self.piecedict.update({
+        #     name: pieces.Knight(color, position)
+        #     for name, color, position in [["test3", "b", f"{pos3}"]]
+        # })
+        # update matrix
+        self.updateMatrix()
+
     def drawBoard(self):
         color = ["\033[0m", "\033[91m", "\033[31m", "\033[97m", "\033[92m"]
 
@@ -295,10 +320,11 @@ class Chessboard():
         print("")  # new line after board for better looks
 
     def printInfo(self):
-        print("width: ", self.width)
-        print("height: ", self.height)
-        print("files: ", self.files)
-        print("ranks: ", self.ranks)
+        print("Width: ", self.width)
+        print("Height: ", self.height)
+        print("Files: ", self.files)
+        print("Ranks: ", self.ranks)
+        print("Original: ", self.original)
         self.printPiecelist()
         self.printMatrix()
         self.drawBoard()
@@ -335,7 +361,7 @@ class Chessboard():
                 print("")
 
     def printMatrix(self):
-        print("matrix: ")
+        print("Matrix: ")
         for line in self.matrix:
             print(line)
 

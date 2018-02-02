@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 class Piece():
     def __init__(self, color, position):
         if color == "w" or "b":
@@ -35,7 +37,7 @@ class Piece():
             pathblocked = True
         # remove move that would put yourself in check
         if board.original is True:
-            for move in valid:
+            for move in deepcopy(valid):
                 testboard = board.createTestBoard(self.position, move)
                 if testboard.inCheck(self.color, move):
                     valid.remove(move)
@@ -51,11 +53,9 @@ class Pawn(Piece):
         super().__init__(color, position)
 
     def move(self, board, notifications=False):
-
-        # calculate all rook moves from position
+        # calculate all pawn moves from position
         boardfile = int(board.files.index(self.position[0].upper()))
-        boardrank = board.ranks.index(int(self.position[1:]))
-        f, r = int(boardfile), int(boardrank)
+        boardrank = int(board.ranks.index(int(self.position[1:])))
         moves = []
         # move without capture
         if(self.color == "w"):
@@ -67,8 +67,8 @@ class Pawn(Piece):
             if(boardrank == 6):
                 directions = directions + ((0, -2),)
         for direction in directions:
-            newf = f + direction[0]
-            newr = r + direction[1]
+            newf = boardfile + direction[0]
+            newr = boardrank + direction[1]
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
                     square = f"{board.files[newf]}{board.ranks[newr]}"
@@ -84,8 +84,8 @@ class Pawn(Piece):
         else:
             directions = ((-1, -1), (1, -1))
         for direction in directions:
-            newf = f + direction[0]
-            newr = r + direction[1]
+            newf = boardfile + direction[0]
+            newr = boardrank + direction[1]
             if newf in range(0, board.width):
                 if newr in range(0, board.height):
                     square = f"{board.files[newf]}{board.ranks[newr]}"
@@ -94,6 +94,12 @@ class Pawn(Piece):
                         if notifications is True:
                             print(f"{self.name} can capture at {square}.")
                         moves.append(square)
+        # remove move that would put yourself in check
+        if board.original is True:
+            for move in deepcopy(moves):
+                testboard = board.createTestBoard(self.position, move)
+                if testboard.inCheck(self.color, move):
+                    moves.remove(move)
         return moves
 
 
@@ -311,4 +317,11 @@ class King(Piece):
                     square = f"{board.files[newf]}{board.ranks[newr]}"
                     valid = self.validate(board, square, False)
                     moves += valid
+        # TODO add castle moves here
         return moves
+
+    def castle(self, board):
+        if self.unmoved is False:
+            print(f"{self.name} has moved already, cant castle.")
+            return []
+        # get the rooks of your color that are still on the board

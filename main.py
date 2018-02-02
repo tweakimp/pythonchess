@@ -10,7 +10,7 @@ from ressources.standard import start
 class Game():
     def __init__(self):
         # self.playWithGui()
-        self.testCheck()
+        self.testMoves()
         # self.playFromTurnlist("game2")
 
     def playWithGui(self):
@@ -20,9 +20,11 @@ class Game():
 
     def testMoves(self):
         board = chessboard.Chessboard(8, 8)
-        board.initTest()
+        board.initTest2()
         board.drawBoard()
-        for i in board.getAllMoves("b"):
+        # board.showAllMoves("w")
+        moves = board.getAllMoves("w")
+        for i in moves:
             print(i)
 
     def testCheck(self):
@@ -90,6 +92,7 @@ class Game():
             print(*move)
             board.movePiece(move[0], move[1])
             board.drawBoard()
+            # board.showAllMoves("w")
 
 
 if __name__ == '__main__':
